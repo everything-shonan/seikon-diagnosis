@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>成婚力診断フォーム</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #e9f4fb;
+      padding: 2em;
+      text-align: center;
+      color: #003b63;
+    }
+    .container {
+      background: #ffffff;
+      max-width: 800px;
+      margin: auto;
+      padding: 2em;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 91, 154, 0.1);
+    }
+    h1 {
+      color: #005b9a;
+    }
+    .logo {
+      max-width: 180px;
+      margin: 0 auto 1em;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="logo.png" alt="ロゴ" class="logo" />
+    <h1>成婚力診断（80問）</h1>
+    <form id="seikonForm"></form>
+  </div>
+  <script>
+    const form = document.getElementById('seikonForm');
+    const questions = [...Array(80).keys()].map(i => `${i + 1}. 質問${i + 1}`);
+    questions.forEach((q, i) => {
+      const div = document.createElement('div');
+      div.style.marginBottom = '1.5em';
+      div.innerHTML = `
+        <p><strong>${q}</strong></p>
+        <label><input type="radio" name="q${i}" value="0" required> 当てはまらない</label>
+        <label><input type="radio" name="q${i}" value="1"> どちらともいえない</label>
+        <label><input type="radio" name="q${i}" value="2"> 当てはまる</label>
+      `;
+      form.appendChild(div);
+    });
+
+    const submitBtn = document.createElement('button');
+    submitBtn.textContent = '診断結果を見る';
+    submitBtn.style = 'padding: 1em 2em; font-weight: bold; border: none; background: #007acc; color: #fff; border-radius: 8px;';
+    submitBtn.type = 'submit';
+    form.appendChild(submitBtn);
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const scores = Array(8).fill(0);
+      for (const [name, value] of formData.entries()) {
+        const i = parseInt(name.replace('q', ''));
+        scores[Math.floor(i / 10)] += parseInt(value);
+      }
+      const labels = ['印象力', '共感力', '観察力', '洞察力', '提案力', '表現力', '会話力', '進展力'];
+      const data = Object.fromEntries(labels.map((l, i) => [l, scores[i]]));
+      localStorage.setItem('seikonScores', JSON.stringify(data));
+      location.href = 'result.html';
+    });
+  </script>
+</body>
+</html>
