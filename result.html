@@ -1,1 +1,89 @@
-<!DOCTYPE html><html><head><title>Result</title></head><body><h1>Result Page</h1></body></html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>成婚力診断結果</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #e9f4fb;
+      padding: 2em;
+      text-align: center;
+      color: #003b63;
+    }
+    .container {
+      background: #ffffff;
+      max-width: 800px;
+      margin: auto;
+      padding: 2em;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 91, 154, 0.1);
+    }
+    h1 {
+      color: #005b9a;
+    }
+    .comment {
+      text-align: left;
+      margin: 1em 0;
+      padding: 1em;
+      background: #f3faff;
+      border-left: 5px solid #007acc;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>診断結果</h1>
+    <canvas id="radarChart" width="400" height="400"></canvas>
+    <div id="scoreList"></div>
+  </div>
+  <script>
+    const scores = JSON.parse(localStorage.getItem('seikonScores')) || {};
+    const categories = Object.keys(scores);
+    const values = categories.map(cat => scores[cat]);
+    new Chart(document.getElementById('radarChart'), {
+      type: 'radar',
+      data: {
+        labels: categories,
+        datasets: [{
+          label: 'スコア',
+          data: values,
+          backgroundColor: 'rgba(0,91,154,0.2)',
+          borderColor: '#005b9a',
+          pointBackgroundColor: '#005b9a'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: '成婚力レーダーチャート' }
+        },
+        scales: {
+          r: { min: 0, max: 30, ticks: { stepSize: 5 } }
+        }
+      }
+    });
+    const resultContainer = document.getElementById("scoreList");
+    categories.forEach(cat => {
+      const score = scores[cat];
+      const rank = score >= 27 ? "S" : score >= 21 ? "A" : score >= 15 ? "B" : "C";
+      const comment = `あなたの ${cat} は ${score} 点です。ランク：${rank}。`;
+      const div = document.createElement("div");
+      div.className = "comment";
+      div.innerHTML = `<strong>${cat}</strong><br>${comment}`;
+      resultContainer.appendChild(div);
+    });
+  </script>
+  <div class="counseling-banner" style="margin-top: 2em; padding: 1.5em; background: #007acc; color: white; border-radius: 10px;">
+    <h2 style="margin: 0 0 10px;">＼ プロによる無料カウンセリング ／</h2>
+    <p style="margin: 0 0 15px;">あなたの成婚力をもとに、最適な婚活戦略をご提案します。</p>
+    <a href="https://everything-shonan.jp/contact/" style="display: inline-block; padding: 0.8em 2em; background: #ffffff; color: #007acc; font-weight: bold; text-decoration: none; border-radius: 8px;">
+      カウンセリング予約はこちら
+    </a>
+  </div>
+</body>
+</html>
