@@ -32,25 +32,63 @@
       border-left: 5px solid #007acc;
       border-radius: 8px;
     }
+    .summary {
+      background: #fff3cd;
+      color: #856404;
+      padding: 1em;
+      border-left: 5px solid #ffeeba;
+      border-radius: 8px;
+      margin-bottom: 2em;
+      text-align: left;
+    }
+    .next-step {
+      margin-top: 2em;
+      padding: 1em;
+      background: #e0f7fa;
+      border-left: 4px solid #00acc1;
+      border-radius: 8px;
+      text-align: left;
+    }
+    .next-step h3 {
+      margin-top: 0;
+      color: #007c91;
+    }
+    .next-step a {
+      display: inline-block;
+      margin-top: 0.5em;
+      background: #00acc1;
+      color: white;
+      padding: 0.7em 1.5em;
+      border-radius: 6px;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>診断結果</h1>
     <canvas id="radarChart" width="400" height="400"></canvas>
+    <div id="summary"></div>
     <div id="scoreList"></div>
+    <div class="next-step">
+      <h3>🔍 次のステップ</h3>
+      <p>この診断結果をもとに、プロのカウンセラーによる無料相談を活用しませんか？</p>
+      <a href="https://everything-shonan.jp/contact/">無料カウンセリングを予約する</a>
+    </div>
   </div>
+
   <script>
-    const scores = JSON.parse(localStorage.getItem('seikonScores')) || {};
-    const categories = Object.keys(scores);
-    const values = categories.map(cat => scores[cat]);
+    const scoreData = JSON.parse(localStorage.getItem('seikonScores')) || {};
+    const orderedCategories = ['印象力', '共感力', '観察力', '洞察力', '提案力', '表現力', '会話力', '進展力'];
+    const chartValues = orderedCategories.map(cat => scoreData[cat] || 0);
+
     new Chart(document.getElementById('radarChart'), {
       type: 'radar',
       data: {
-        labels: categories,
+        labels: orderedCategories,
         datasets: [{
           label: 'スコア',
-          data: values,
+          data: chartValues,
           backgroundColor: 'rgba(0,91,154,0.2)',
           borderColor: '#005b9a',
           pointBackgroundColor: '#005b9a'
@@ -67,23 +105,58 @@
         }
       }
     });
+
+    function getRank(score) {
+      if (score >= 27) return "S";
+      if (score >= 21) return "A";
+      if (score >= 15) return "B";
+      return "C";
+    }
+
+    const totalScore = Object.values(scoreData).reduce((a, b) => a + b, 0);
+    let overallRank = getRank(totalScore / 8);
+    let advice = "";
+    switch (overallRank) {
+      case "S":
+        advice = "あなたは成婚力が非常に高く、どの場面でも相手に好印象を与えられるタイプです。さらなる磨きをかけて成婚に近づきましょう！"; break;
+      case "A":
+        advice = "多くの力がバランス良く整っており、婚活において高い実力を発揮できます。あと一歩の工夫が大きな前進につながります。"; break;
+      case "B":
+        advice = "成婚力のベースはできていますが、いくつかの項目に改善の余地があります。今のうちに強化することで理想の出会いに繋がります。"; break;
+      case "C":
+        advice = "これから力をつけていく段階です。焦らず、自分に必要な部分を見直して、一歩ずつ自信を積み上げていきましょう。"; break;
+    }
+
+    document.getElementById("summary").innerHTML = `
+      <div class="summary">
+        <strong>総合スコア：${totalScore}点／240点</strong><br>
+        <strong>総合ランク：${overallRank}</strong><br>
+        ${advice}
+      </div>
+    `;
+
+    const comments = {
+      "印象力": { "S": "第一印象でしっかり心を掴めるあなたは、自然と信頼を得られる存在です。",
+                  "A": "印象は良好で安定しています。さらに磨きをかけましょう。",
+                  "B": "基本的には良い印象を持たれていますが、改善の余地があります。",
+                  "C": "第一印象に改善の余地があります。身だしなみや話し方を意識してみてください。" },
+      "共感力": { "S": "相手の気持ちにしっかり寄り添える力があります。",
+                  "A": "共感する姿勢は良好です。自然なリアクションが信頼感につながります。",
+                  "B": "共感がやや控えめな傾向があります。",
+                  "C": "共感の姿勢を意識することが信頼関係構築の第一歩です。" }
+      // ...（省略、実際はすべてのコメント追加）
+    };
+
     const resultContainer = document.getElementById("scoreList");
-    categories.forEach(cat => {
-      const score = scores[cat];
-      const rank = score >= 27 ? "S" : score >= 21 ? "A" : score >= 15 ? "B" : "C";
-      const comment = `あなたの ${cat} は ${score} 点です。ランク：${rank}。`;
+    orderedCategories.forEach(cat => {
+      const score = scoreData[cat] || 0;
+      const rank = getRank(score);
+      const comment = comments[cat]?.[rank] || "コメント準備中...";
       const div = document.createElement("div");
       div.className = "comment";
-      div.innerHTML = `<strong>${cat}</strong><br>${comment}`;
+      div.innerHTML = `<strong>${cat}（${score}点） - ランク：${rank}</strong><br>${comment}`;
       resultContainer.appendChild(div);
     });
   </script>
-  <div class="counseling-banner" style="margin-top: 2em; padding: 1.5em; background: #007acc; color: white; border-radius: 10px;">
-    <h2 style="margin: 0 0 10px;">＼ プロによる無料カウンセリング ／</h2>
-    <p style="margin: 0 0 15px;">あなたの成婚力をもとに、最適な婚活戦略をご提案します。</p>
-    <a href="https://everything-shonan.jp/contact/" style="display: inline-block; padding: 0.8em 2em; background: #ffffff; color: #007acc; font-weight: bold; text-decoration: none; border-radius: 8px;">
-      カウンセリング予約はこちら
-    </a>
-  </div>
 </body>
 </html>
