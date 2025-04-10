@@ -11,69 +11,71 @@
       background: #e9f4fb;
       padding: 2em;
       text-align: center;
+      color: #003b63;
     }
     .container {
-      background: #fff;
+      background: #ffffff;
       max-width: 800px;
       margin: auto;
       padding: 2em;
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0, 91, 154, 0.1);
     }
     canvas {
-      margin-top: 20px;
+      margin-top: 2em;
+    }
+    .comment {
+      text-align: left;
+      margin-top: 1.5em;
+      padding: 1em;
+      background: #f3faff;
+      border-left: 6px solid #007acc;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>診断結果</h1>
-    <canvas id="chart" width="400" height="400"></canvas>
-    <div id="comments"></div>
+    <canvas id="radarChart" width="400" height="400"></canvas>
+    <div id="scoreList"></div>
   </div>
-
   <script>
-    const scores = JSON.parse(localStorage.getItem('seikonScores') || '{}');
-    const labels = Object.keys(scores);
-    const data = labels.map(label => scores[label]);
+    const scores = JSON.parse(localStorage.getItem('seikonScores')) || {};
+    const ranks = JSON.parse(localStorage.getItem('seikonRanks')) || {};
+    const categories = Object.keys(scores);
+    const values = categories.map(cat => scores[cat]);
 
-    new Chart(document.getElementById("chart"), {
-      type: "radar",
+    const scoreList = document.getElementById('scoreList');
+    categories.forEach(cat => {
+      const div = document.createElement('div');
+      div.className = "comment";
+      div.innerHTML = `<strong>${cat}：${scores[cat]}点 - ランク：${ranks[cat]}</strong>`;
+      scoreList.appendChild(div);
+    });
+
+    new Chart(document.getElementById('radarChart'), {
+      type: 'radar',
       data: {
-        labels: labels,
+        labels: categories,
         datasets: [{
-          label: "スコア",
-          data: data,
-          backgroundColor: "rgba(0,91,154,0.2)",
-          borderColor: "#005b9a",
-          pointBackgroundColor: "#005b9a"
+          label: 'スコア',
+          data: values,
+          backgroundColor: 'rgba(0,91,154,0.2)',
+          borderColor: '#005b9a',
+          pointBackgroundColor: '#005b9a'
         }]
       },
       options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          title: { display: true, text: '成婚力レーダーチャート' }
+        },
         scales: {
-          r: {
-            suggestedMin: 0,
-            suggestedMax: 30
-          }
+          r: { min: 0, max: 30, ticks: { stepSize: 5 } }
         }
       }
-    });
-
-    function getRank(score) {
-      if (score >= 27) return "S";
-      if (score >= 21) return "A";
-      if (score >= 15) return "B";
-      return "C";
-    }
-
-    const commentsDiv = document.getElementById('comments');
-    labels.forEach(label => {
-      const score = scores[label];
-      const rank = getRank(score);
-      const comment = `${label}：${score}点（ランク：${rank}）`;
-      const p = document.createElement("p");
-      p.textContent = comment;
-      commentsDiv.appendChild(p);
     });
   </script>
 </body>
