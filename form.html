@@ -51,7 +51,7 @@
   </style>
 </head>
 <body>
-  <form id="seikonForm">
+  <form id="diagnosisForm">
     <h1>成婚力診断（80問）</h1>
     <div id="questions"></div>
     <button type="submit">次へ進む</button>
@@ -87,4 +87,51 @@
     });
   </script>
 </body>
-</html>
+</html><script>
+  const questionsText = [
+    "初対面で笑顔を保つことを意識していますか？",
+    "挨拶時に丁寧な言葉遣いをしていますか？",
+    // ...以下略（80問分に増やす）
+  ];
+
+  const container = document.getElementById('questions');
+  questionsText.forEach((q, i) => {
+    const block = document.createElement('div');
+    block.className = 'question-block';
+    block.innerHTML = `<p><strong>${i + 1}. ${q}</strong></p>
+      <label><input type="radio" name="q${String(i + 1).padStart(2, '0')}" value="0" required> 当てはまらない</label>
+      <label><input type="radio" name="q${String(i + 1).padStart(2, '0')}" value="1"> どちらでもない</label>
+      <label><input type="radio" name="q${String(i + 1).padStart(2, '0')}" value="2"> 当てはまる</label>`;
+    container.appendChild(block);
+  });
+
+  document.getElementById('diagnosisForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const scores = {
+      impression: 0,
+      empathy: 0,
+      observation: 0,
+      insight: 0,
+      proposal: 0,
+      expression: 0,
+      communication: 0,
+      progress: 0
+    };
+
+    const formData = new FormData(this);
+    for (let i = 1; i <= 80; i++) {
+      const value = parseInt(formData.get(`q${String(i).padStart(2, '0')}`), 10);
+      const index = Math.floor((i - 1) / 10);
+      const category = Object.keys(scores)[index];
+      if (!isNaN(value)) scores[category] += value;
+    }
+
+    for (const key in scores) {
+      scores[key] = Math.round(scores[key] / 10); // 0〜3点に圧縮
+    }
+
+    sessionStorage.setItem("diagnosisScores", JSON.stringify(scores));
+    window.location.href = "result.html";
+  });
+</script>
