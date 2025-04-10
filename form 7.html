@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>成婚力診断フォーム</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #e9f4fb;
+      padding: 2em;
+      text-align: center;
+      color: #003b63;
+    }
+    form {
+      background: #ffffff;
+      max-width: 800px;
+      margin: auto;
+      padding: 2em;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 91, 154, 0.1);
+    }
+    h1 {
+      color: #005b9a;
+    }
+    .question-block {
+      margin-bottom: 2em;
+      text-align: left;
+      background-color: #f3faff;
+      padding: 1em;
+      border-radius: 6px;
+      border-left: 4px solid #007acc;
+    }
+    .question-block label {
+      display: block;
+      margin: 0.5em 0;
+    }
+    button {
+      padding: 1em 2em;
+      font-weight: bold;
+      border: none;
+      background: #007acc;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005b9a;
+    }
+  </style>
+</head>
+<body>
+  <form id="seikonForm">
+    <h1>成婚力診断（80問）</h1>
+    <div id="questions"></div>
+    <button type="submit">次へ進む</button>
+  </form>
+  <script>
+    const questionsText = [...Array(80).keys()].map(i => `質問${i + 1}`);
+    const container = document.getElementById('questions');
+    questionsText.forEach((q, i) => {
+      const block = document.createElement('div');
+      block.className = 'question-block';
+      block.innerHTML = `
+        <p><strong>${i + 1}. ${q}</strong></p>
+        <label><input type="radio" name="q${i}" value="0" required> 当てはまる</label>
+        <label><input type="radio" name="q${i}" value="1"> どちらともいえない</label>
+        <label><input type="radio" name="q${i}" value="2"> 当てはまらない</label>
+      `;
+      container.appendChild(block);
+    });
+    document.getElementById('seikonForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const categoryScores = Array(8).fill(0);
+      for (let [name, value] of formData.entries()) {
+        const index = parseInt(name.replace('q', ''));
+        const category = Math.floor(index / 10);
+        categoryScores[category] += parseInt(value);
+      }
+      const categories = ['印象力', '共感力', '観察力', '洞察力', '提案力', '表現力', '会話力', '進展力'];
+      const scores = {};
+      categories.forEach((cat, idx) => {
+        scores[cat] = categoryScores[idx];
+      });
+      function getRank(score) {
+        if (score >= 27) return "S";
+        if (score >= 21) return "A";
+        if (score >= 15) return "B";
+        return "C";
+      }
+      const advice = {};
+      categories.forEach((cat, idx) => {
+        const rank = getRank(categoryScores[idx]);
+        advice[cat] = rank;
+      });
+      localStorage.setItem('seikonScores', JSON.stringify(scores));
+      localStorage.setItem('seikonRanks', JSON.stringify(advice));
+      window.location.href = 'result.html';
+    });
+  </script>
+</body>
+</html>
