@@ -2,51 +2,105 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>成婚力診断 | everything湘南</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>成婚力診断｜everything湘南</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
       font-family: sans-serif;
       background: linear-gradient(135deg, #e0f7fa, #ffffff);
       color: #003b63;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
+      padding: 2em 1em;
     }
     h1 {
       font-size: 2em;
       color: #005b9a;
       margin-bottom: 0.5em;
+      text-align: center;
     }
     p {
       font-size: 1.1em;
+      text-align: center;
+      max-width: 600px;
       margin-bottom: 2em;
     }
-    a.button {
-      display: inline-block;
+    .button {
       background: #007acc;
-      color: white;
+      color: #fff;
       padding: 1em 2em;
-      border-radius: 8px;
-      font-weight: bold;
       text-decoration: none;
       font-size: 1.2em;
+      border-radius: 8px;
+      font-weight: bold;
       box-shadow: 0 4px 12px rgba(0, 91, 154, 0.2);
     }
-    a.button:hover {
-      background: #005b9a;
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1em;
+      max-width: 1000px;
+      width: 100%;
+      margin-top: 2em;
+    }
+    .tile {
+      background: #fff;
+      padding: 1.5em;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      text-align: left;
+    }
+    .tile h3 {
+      margin-top: 0;
+      color: #007acc;
+    }
+    @media(max-width: 600px) {
+      h1 { font-size: 1.6em; }
+      .button { font-size: 1em; }
     }
   </style>
 </head>
 <body>
   <h1>成婚力診断へようこそ</h1>
-  <p>あなたの成婚力を8つの視点から診断します。</p>
-  <a href="form-1.html" class="button">診断をはじめる</a>
+  <p>恋愛ではなく「成婚」に必要な8つの力を営業スキルの視点から診断します。</p>
+  <a href="form-1.html" class="button">▶ 診断をはじめる</a>
+
+  <div class="tiles">
+    <div class="tile">
+      <h3>印象力</h3>
+      <p>第一印象の良さ・清潔感・話し方など初対面での信頼構築力。</p>
+    </div>
+    <div class="tile">
+      <h3>共感力</h3>
+      <p>相手の気持ちへの理解・うなずき・表情・受容の姿勢。</p>
+    </div>
+    <div class="tile">
+      <h3>観察力</h3>
+      <p>表情・しぐさ・キーワードなどから相手の特徴を見抜く力。</p>
+    </div>
+    <div class="tile">
+      <h3>洞察力</h3>
+      <p>言葉の裏にある本音や価値観を読み取る「読み解く力」。</p>
+    </div>
+    <div class="tile">
+      <h3>提案力</h3>
+      <p>相手の好みに合ったデートプランや会話を展開する力。</p>
+    </div>
+    <div class="tile">
+      <h3>表現力</h3>
+      <p>自分の魅力・価値観・考えをわかりやすく伝える力。</p>
+    </div>
+    <div class="tile">
+      <h3>会話力</h3>
+      <p>質問・傾聴・共通点を見つけるなど会話を深める力。</p>
+    </div>
+    <div class="tile">
+      <h3>進展力</h3>
+      <p>タイミングを逃さず次のステップへ進むための計画と行動。</p>
+    </div>
+  </div>
 </body>
 </html>
