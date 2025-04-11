@@ -11,7 +11,24 @@
     ul { list-style-type: "\2714 "; padding-left: 1em; }
     .section { background: white; margin: 1em 0; padding: 2em; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
     li.scale-item { margin-bottom: 1em; }
-  </style>
+  
+    @media (max-width: 600px) {
+      header, section {
+        padding: 1.5em 1em;
+      }
+      .section {
+        padding: 1.5em 1em;
+      }
+      a.button, .start-btn {
+        display: block;
+        width: 90%;
+        margin: 1em auto;
+        font-size: 1.2em;
+        text-align: center;
+      }
+    }
+    </style>
+    
 </head>
 <body>
 
@@ -73,11 +90,11 @@
 </section>
 
 
-<div style="text-align:center; margin: 2em 0;">
-  <a href="form.html" style="background:#007acc; color:white; padding:1em 2em; border-radius:8px; text-decoration:none; font-weight:bold;">
-    診断をはじめる
-  </a>
-</div>
-
-</body>
+    <div style="text-align:center; margin: 2em 0;">
+      <a href="form.html" class="start-btn" style="background:#007acc; color:white; padding:1em 2em; border-radius:8px; text-decoration:none; font-weight:bold;">
+        診断をはじめる
+      </a>
+    </div>
+    </body>
+    
 </html>
