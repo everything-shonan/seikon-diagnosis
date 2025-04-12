@@ -1,106 +1,122 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>成婚力診断｜everything湘南</title>
   <style>
     body {
-      margin: 0;
       font-family: sans-serif;
-      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      background: #f9f9f9;
       color: #003b63;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header, section {
+      max-width: 900px;
+      margin: 0 auto;
       padding: 2em 1em;
     }
-    h1 {
-      font-size: 2em;
+    h1, h2 {
       color: #005b9a;
-      margin-bottom: 0.5em;
       text-align: center;
     }
-    p {
-      font-size: 1.1em;
-      text-align: center;
-      max-width: 600px;
-      margin-bottom: 2em;
+    ul {
+      list-style: none;
+      padding-left: 0;
+      display: inline-block;
+      text-align: left;
     }
-    .button {
+    ul li {
+      padding: 0.5em 0;
+      position: relative;
+      padding-left: 1.5em;
+    }
+    ul li::before {
+      content: "\25B6";
+      position: absolute;
+      left: 0;
+      color: #007acc;
+    }
+    .section {
+      background: white;
+      margin: 1em 0;
+      padding: 2em;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .start-button {
+      display: block;
+      width: fit-content;
+      margin: 2em auto;
       background: #007acc;
-      color: #fff;
+      color: white;
       padding: 1em 2em;
-      text-decoration: none;
-      font-size: 1.2em;
       border-radius: 8px;
       font-weight: bold;
-      box-shadow: 0 4px 12px rgba(0, 91, 154, 0.2);
+      text-decoration: none;
+      text-align: center;
     }
     .tiles {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1em;
-      max-width: 1000px;
-      width: 100%;
       margin-top: 2em;
     }
     .tile {
-      background: #fff;
-      padding: 1.5em;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      text-align: left;
-    }
-    .tile h3 {
-      margin-top: 0;
-      color: #007acc;
+      background: #e3f5ff;
+      border-left: 6px solid #007acc;
+      padding: 1em;
+      border-radius: 8px;
     }
     @media(max-width: 600px) {
-      h1 { font-size: 1.6em; }
-      .button { font-size: 1em; }
+      h1 { font-size: 1.5em; }
     }
   </style>
 </head>
 <body>
-  <h1>成婚力診断へようこそ</h1>
-  <p>恋愛ではなく「成婚」に必要な8つの力を営業スキルの視点から診断します。</p>
-  <a href="form-1.html" class="button">▶ 診断をはじめる</a>
 
+<header>
+  <h1>【成婚力診断】</h1>
+  <p style="text-align:center; font-size: 1.2em; color: #007acc; font-weight: bold;">たった6分で“あなたの婚活力”が見える化！</p>
+  <p style="text-align:center;">恋愛とは違う、“成婚”に近づくための営業スキル応用型診断サービス</p>
+</header>
+
+<section class="section" style="text-align: center;">
+  <h2>こんなお悩みありませんか？</h2>
+  <ul>
+    <li>婚活がうまくいかない → 強みや課題を可視化し戦略を立てられる</li>
+    <li>理想の相手に出会えない → 相手のタイプに合うアプローチが分かる</li>
+    <li>交際が続かない → 関係構築のコミュニケーション力をチェック</li>
+    <li>自信が持てない → あなたの魅力を診断で再発見</li>
+    <li>何をすればいいか分からない → 成婚までのステップが明確に</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>営業5ヶ条 × 成婚力8尺度</h2>
   <div class="tiles">
-    <div class="tile">
-      <h3>印象力</h3>
-      <p>第一印象の良さ・清潔感・話し方など初対面での信頼構築力。</p>
-    </div>
-    <div class="tile">
-      <h3>共感力</h3>
-      <p>相手の気持ちへの理解・うなずき・表情・受容の姿勢。</p>
-    </div>
-    <div class="tile">
-      <h3>観察力</h3>
-      <p>表情・しぐさ・キーワードなどから相手の特徴を見抜く力。</p>
-    </div>
-    <div class="tile">
-      <h3>洞察力</h3>
-      <p>言葉の裏にある本音や価値観を読み取る「読み解く力」。</p>
-    </div>
-    <div class="tile">
-      <h3>提案力</h3>
-      <p>相手の好みに合ったデートプランや会話を展開する力。</p>
-    </div>
-    <div class="tile">
-      <h3>表現力</h3>
-      <p>自分の魅力・価値観・考えをわかりやすく伝える力。</p>
-    </div>
-    <div class="tile">
-      <h3>会話力</h3>
-      <p>質問・傾聴・共通点を見つけるなど会話を深める力。</p>
-    </div>
-    <div class="tile">
-      <h3>進展力</h3>
-      <p>タイミングを逃さず次のステップへ進むための計画と行動。</p>
-    </div>
+    <div class="tile"><strong>印象力：</strong>好印象を与える第一印象力</div>
+    <div class="tile"><strong>共感力：</strong>信頼関係を築く力</div>
+    <div class="tile"><strong>観察力：</strong>相手の価値観や状況を見抜く力</div>
+    <div class="tile"><strong>洞察力：</strong>本音や感情を読み取る力</div>
+    <div class="tile"><strong>提案力：</strong>相手に響くデートや提案ができる</div>
+    <div class="tile"><strong>表現力：</strong>自分の魅力を正しく伝える力</div>
+    <div class="tile"><strong>会話力：</strong>話を深める質問力と傾聴力</div>
+    <div class="tile"><strong>進展力：</strong>タイミングを逃さず関係を深める力</div>
   </div>
+</section>
+
+<section class="section">
+  <h2>たった3ステップで診断完了！</h2>
+  <ol style="text-align:left; display:inline-block;">
+    <li>80問の簡単な質問に回答（所要時間：約6分）</li>
+    <li>成婚力を8つの尺度でスコア化</li>
+    <li>強みと課題に応じたアドバイスをお届け</li>
+  </ol>
+  <a href="form-1.html" class="start-button">▶ 診断をはじめる</a>
+</section>
+
 </body>
 </html>
