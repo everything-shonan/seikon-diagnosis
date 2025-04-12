@@ -49,8 +49,11 @@
       margin-top: 2em;
       font-size: 0.9em;
     }
-    button {
+    .buttons {
       margin-top: 2em;
+    }
+    button {
+      margin: 0.5em;
       padding: 1em 2em;
       background: #007acc;
       color: white;
@@ -137,7 +140,16 @@
     </div>
 
     <div class="progress">3 / 8 ページ</div>
-    <button type="submit">▶ 次へ進む</button>
+    <div class="buttons">
+      <button type="submit">▶ 次へ進む</button>
+      <button type="button" onclick="location.href='result.html'">▶ 途中で診断結果を見る</button>
+    </div>
   </form>
+  <script>
+    document.getElementById("form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      window.location.href = "form-4.html";
+    });
+  </script>
 </body>
 </html>
