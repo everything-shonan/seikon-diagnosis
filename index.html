@@ -9,135 +9,130 @@
     body {
       font-family: sans-serif;
       background: #f9f9f9;
-      color: #003b63;
+      color: #333;
       margin: 0;
       padding: 0;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     header, section {
       max-width: 900px;
       margin: 0 auto;
-      padding: 2em 1em;
+      padding: 2em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
-    h1, h2 {
+    h1, h2, h3 {
       color: #005b9a;
       text-align: center;
     }
-    ul {
-      list-style: none;
-      padding-left: 0;
-      display: inline-block;
-      text-align: left;
+    h1 {
+      font-size: 2.4em;
+      margin-bottom: 0.2em;
     }
-    ul li {
-      padding: 0.5em 0;
-      position: relative;
-      padding-left: 1.5em;
-    }
-    ul li::before {
-      content: "\25B6";
-      position: absolute;
-      left: 0;
-      color: #007acc;
+    .highlight {
+      color: #d62828;
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 0.5em;
     }
     .section {
       background: white;
-      margin: 1em 0;
+      margin: 1em auto;
       padding: 2em;
-      border-radius: 12px;
+      border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-    .start-button {
-      display: block;
-      width: fit-content;
-      margin: 2em auto;
-      background: #007acc;
-      color: white;
-      padding: 1em 2em;
-      border-radius: 8px;
-      font-weight: bold;
-      text-decoration: none;
       text-align: center;
     }
-    .tiles {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1em;
-      margin-top: 2em;
-    }
-    .tile {
-      background: #e3f5ff;
-      border-left: 6px solid #007acc;
-      padding: 1em;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
+    ul, ol {
+      max-width: 700px;
+      margin: 0 auto;
       text-align: left;
-      min-height: 80px;
-      line-height: 1.6;
-      word-break: break-word;
     }
-    .tile strong {
-      white-space: nowrap;
+    ul {
+      list-style-type: none;
+      padding-left: 0;
     }
-    @media(max-width: 600px) {
-      h1 { font-size: 1.5em; }
-      .tile {
-        font-size: 0.95em;
-        line-height: 1.6;
-        padding: 1em;
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .tile strong {
-        display: block;
-      }
+    ul li::before {
+      content: "\2714 ";
+      color: #007acc;
+      margin-right: 0.5em;
+    }
+    ul li {
+      padding: 0.5em 0;
+    }
+    ol {
+      padding-left: 1.2em;
+    }
+    .start-btn {
+      display: inline-block;
+      margin-top: 1.5em;
+      padding: 1em 2em;
+      background: #007acc;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    .start-btn:hover {
+      background: #005b9a;
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>成婚力診断</h1>
+    <p class="highlight">たった6分で“あなたの婚活力”が見える化！</p>
+    <p>恋愛とは違う、“成婚”に近づくための営業スキル応用型診断サービス</p>
+    <a class="start-btn" href="form-1.html">診断を始める</a>
+  </header>
 
-<header>
-  <h1>【成婚力診断】</h1>
-  <p style="text-align:center; font-size: 1.2em; color: #007acc; font-weight: bold;">たった6分で“あなたの婚活力”が見える化！</p>
-  <p style="text-align:center;">恋愛とは違う、“成婚”に近づくための営業スキル応用型診断サービス</p>
-</header>
+  <section class="section">
+    <h2>こんなお悩みありませんか？</h2>
+    <ul>
+      <li>婚活がうまくいかない → 強みや課題を可視化し戦略を立てられる</li>
+      <li>理想の相手に出会えない → 相手のタイプに合うアプローチが分かる</li>
+      <li>交際が続かない → 関係構築のコミュニケーション力をチェック</li>
+      <li>自信が持てない → あなたの魅力を診断で再発見</li>
+      <li>何をすればいいか分からない → 成婚までのステップが明確に</li>
+    </ul>
+  </section>
 
-<section class="section" style="text-align: center;">
-  <h2>こんなお悩みありませんか？</h2>
-  <ul>
-    <li>婚活がうまくいかない → 強みや課題を可視化し戦略を立てられる</li>
-    <li>理想の相手に出会えない → 相手のタイプに合うアプローチが分かる</li>
-    <li>交際が続かない → 関係構築のコミュニケーション力をチェック</li>
-    <li>自信が持てない → あなたの魅力を診断で再発見</li>
-    <li>何をすればいいか分からない → 成婚までのステップが明確に</li>
-  </ul>
-</section>
+  <section class="section">
+    <h2>成婚力診断とは？</h2>
+    <p>
+      一般的な「恋愛指南」や「心理学」とは異なり、<strong>営業スキルを活かした実践的な「相手の心を動かす婚活術」</strong>を提供する診断サービスです。
+    </p>
+    <p>
+      営業の本質である「ニーズ把握」「信頼構築」「最適提案」は婚活にも通じる力。この診断では、それらの力を“成婚力”として可視化し、自分の強み・弱みを明確にします。
+    </p>
+  </section>
 
-<section class="section">
-  <h2>営業5ヶ条 × 成婚力8尺度</h2>
-  <div class="tiles">
-    <div class="tile"><strong>印象力：</strong>好印象を与える第一印象力</div>
-    <div class="tile"><strong>共感力：</strong>信頼関係を築く力</div>
-    <div class="tile"><strong>観察力：</strong>相手の価値観や状況を見抜く力</div>
-    <div class="tile"><strong>洞察力：</strong>本音や感情を読み取る力</div>
-    <div class="tile"><strong>提案力：</strong>相手に響くデートや提案ができる</div>
-    <div class="tile"><strong>表現力：</strong>自分の魅力を正しく伝える力</div>
-    <div class="tile"><strong>会話力：</strong>話を深める質問力と傾聴力</div>
-    <div class="tile"><strong>進展力：</strong>タイミングを逃さず関係を深める力</div>
-  </div>
-</section>
+  <section class="section">
+    <h2>営業5ヶ条 × 成婚力8尺度</h2>
+    <ul>
+      <li><strong>印象力：</strong>好印象を与える第一印象力</li>
+      <li><strong>共感力：</strong>信頼関係を築く力</li>
+      <li><strong>観察力：</strong>相手の価値観や状況を見抜く力</li>
+      <li><strong>洞察力：</strong>本音や感情を読み取る力</li>
+      <li><strong>提案力：</strong>相手に響くデートや提案ができる</li>
+      <li><strong>表現力：</strong>自分の魅力を正しく伝える力</li>
+      <li><strong>会話力：</strong>話を深める質問力と傾聴力</li>
+      <li><strong>進展力：</strong>タイミングを逃さず関係を深める力</li>
+    </ul>
+  </section>
 
-<section class="section">
-  <h2>たった3ステップで診断完了！</h2>
-  <ol style="text-align:left; display:inline-block;">
-    <li>80問の簡単な質問に回答（所要時間：約6分）</li>
-    <li>成婚力を8つの尺度でスコア化</li>
-    <li>強みと課題に応じたアドバイスをお届け</li>
-  </ol>
-  <a href="form-1.html" class="start-button">▶ 診断をはじめる</a>
-</section>
-
+  <section class="section">
+    <h2>たった3ステップで診断完了！</h2>
+    <ol>
+      <li>80問の3択質問に回答（所要時間：約6分）</li>
+      <li>成婚力を8つの尺度でスコア化</li>
+      <li>診断結果と専門家からのアドバイスを表示</li>
+    </ol>
+  </section>
 </body>
 </html>
