@@ -12,7 +12,7 @@ else if (total >= 150) rank = "Bランク（改善の余地あり）";
 else if (total >= 90) rank = "Cランク（要改善）";
 else rank = "Dランク（努力が必要）";
 
-document.getElementById("totalScoreDisplay").innerText = `総合スコア：${{total}点｜ランク：${{rank}`;
+document.getElementById("totalScoreDisplay").innerText = `総合スコア：${total}点｜ランク：${rank}`;
 
 new Chart(document.getElementById("radarChart"), {
   type: 'radar',
@@ -37,29 +37,28 @@ new Chart(document.getElementById("radarChart"), {
   }
 });
 
-const categoryScores = radarLabels.map((label, i) => `${{label}：${{scoreValues[i]} 点`).join(" ／ ");
-document.getElementById("categoryScores").innerText = categoryScores;
+document.getElementById("categoryScores").innerText = radarLabels.map((label, i) => `${label}：${scoreValues[i]} 点`).join(" ／ ");
 
 const comments = {
-  impression: ["低", "やや低", "普通", "高"],
-  empathy: ["低", "やや低", "普通", "高"],
-  observation: ["低", "やや低", "普通", "高"],
-  insight: ["低", "やや低", "普通", "高"],
-  proposal: ["低", "やや低", "普通", "高"],
-  expression: ["低", "やや低", "普通", "高"],
-  communication: ["低", "やや低", "普通", "高"],
-  progress: ["低", "やや低", "普通", "高"]
+  impression: ["★0印象力コメント", "★1印象力コメント", "★2印象力コメント", "★3印象力コメント"],
+  empathy: ["★0共感力コメント", "★1共感力コメント", "★2共感力コメント", "★3共感力コメント"],
+  observation: ["★0観察力コメント", "★1観察力コメント", "★2観察力コメント", "★3観察力コメント"],
+  insight: ["★0洞察力コメント", "★1洞察力コメント", "★2洞察力コメント", "★3洞察力コメント"],
+  proposal: ["★0提案力コメント", "★1提案力コメント", "★2提案力コメント", "★3提案力コメント"],
+  expression: ["★0表現力コメント", "★1表現力コメント", "★2表現力コメント", "★3表現力コメント"],
+  communication: ["★0会話力コメント", "★1会話力コメント", "★2会話力コメント", "★3会話力コメント"],
+  progress: ["★0進展力コメント", "★1進展力コメント", "★2進展力コメント", "★3進展力コメント"]
 };
 
 const advices = {
-  impression: ["営業アドバイス1", "営業アドバイス2", "営業アドバイス3", "営業アドバイス4"],
-  empathy: ["営業アドバイス1", "営業アドバイス2", "営業アドバイス3", "営業アドバイス4"],
-  observation: ["営業アドバイス1", "営業アドバイス2", "営業アドバイス3", "営業アドバイス4"],
-  insight: ["営業アドバイス1", "営業アドバイス2", "営業アドバイス3", "営業アドバイス4"],
-  proposal: ["営業アドバイス1", "営業アドバイス2", "営業アドバイス3", "営業アドバイス4"],
-  expression: ["営業アドバイス1", "営業アドバイス2", "営業アドバイス3", "営業アドバイス4"],
-  communication: ["営業アドバイス1", "営業アドバイス2", "営業アドバイス3", "営業アドバイス4"],
-  progress: ["営業アドバイス1", "営業アドバイス2", "営業アドバイス3", "営業アドバイス4"]
+  impression: ["★0印象力アドバイス", "★1印象力アドバイス", "★2印象力アドバイス", "★3印象力アドバイス"],
+  empathy: ["★0共感力アドバイス", "★1共感力アドバイス", "★2共感力アドバイス", "★3共感力アドバイス"],
+  observation: ["★0観察力アドバイス", "★1観察力アドバイス", "★2観察力アドバイス", "★3観察力アドバイス"],
+  insight: ["★0洞察力アドバイス", "★1洞察力アドバイス", "★2洞察力アドバイス", "★3洞察力アドバイス"],
+  proposal: ["★0提案力アドバイス", "★1提案力アドバイス", "★2提案力アドバイス", "★3提案力アドバイス"],
+  expression: ["★0表現力アドバイス", "★1表現力アドバイス", "★2表現力アドバイス", "★3表現力アドバイス"],
+  communication: ["★0会話力アドバイス", "★1会話力アドバイス", "★2会話力アドバイス", "★3会話力アドバイス"],
+  progress: ["★0進展力アドバイス", "★1進展力アドバイス", "★2進展力アドバイス", "★3進展力アドバイス"]
 };
 
 const feedbackContainer = document.getElementById("feedbackContainer");
@@ -69,9 +68,9 @@ radarKeys.forEach((key, index) => {
   const fbBlock = document.createElement("div");
   fbBlock.className = "feedback-block";
   fbBlock.innerHTML = `
-    <h3>${{radarLabels[index]}</h3>
-    <p>${{comments[key][level]}</p>
-    <p class="advice"><strong>営業脳アドバイス：</strong>${{advices[key][level]}</p>
+    <h3>${radarLabels[index]}</h3>
+    <p>${comments[key][level]}</p>
+    <p class="advice"><strong>営業脳からのアドバイス：</strong>${advices[key][level]}</p>
   `;
   feedbackContainer.appendChild(fbBlock);
 });
