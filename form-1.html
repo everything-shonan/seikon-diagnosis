@@ -3,94 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>成婚力診断｜印象力</title>
+  <title>成婚力診断</title>
   <style>
     body {
       font-family: sans-serif;
-      background: #f0faff;
-      color: #003b63;
-      margin: 0;
+      background: #e9f4fb;
       padding: 2em;
+      text-align: center;
+      color: #003b63;
     }
-    .container {
+    form {
+      background: #ffffff;
       max-width: 800px;
       margin: auto;
-      background: white;
       padding: 2em;
       border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0, 91, 154, 0.1);
     }
     h1 {
-      text-align: center;
-      color: #01579b;
-    }
-    .banner {
-      background: #d0ecff;
-      padding: 1em;
-      text-align: center;
-      border-radius: 10px;
+      color: #005b9a;
+      font-size: 2em;
       margin-bottom: 0.5em;
-      font-size: 1.2em;
-      color: #003b63;
+    }
+    .category-banner {
+      background: #b3e5fc;
+      color: #01579b;
       font-weight: bold;
+      padding: 0.5em;
+      border-radius: 8px;
+      margin-bottom: 0.2em;
+      font-size: 1.2em;
     }
     .sub-label {
-      text-align: center;
-      margin-bottom: 2em;
+      margin-bottom: 1em;
       font-size: 0.9em;
+      color: #555;
     }
-    .question {
+    .question-block {
       margin-bottom: 2em;
-      background: #f3faff;
+      text-align: left;
+      background-color: #f3faff;
       padding: 1em;
-      border-radius: 8px;
+      border-radius: 6px;
+      border-left: 4px solid #007acc;
     }
-    .question p {
-      font-weight: bold;
-    }
-    label {
+    .question-block label {
       display: block;
       margin: 0.5em 0;
-      padding: 0.5em;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      padding: 0.4em;
       background: #fff;
+      border-radius: 4px;
     }
     button {
-      background: #007acc;
-      color: white;
       padding: 1em 2em;
-      border: none;
-      border-radius: 8px;
       font-weight: bold;
+      border: none;
+      background: #007acc;
+      color: #fff;
+      border-radius: 8px;
       cursor: pointer;
-      display: block;
-      margin: 2em auto 1em auto;
     }
     button:hover {
       background: #005b9a;
     }
     .progress {
-      text-align: center;
+      margin-top: 1em;
       font-size: 0.9em;
-      color: #555;
+      color: #666;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>成婚力診断フォーム</h1>
-    <div class="banner">印象力</div>
-    <div class="sub-label">※10問</div>
-    <form id="form1">
-      <div id="questions"></div>
-      <button type="submit">▶ 次へ進む</button>
-      <div class="progress">1 / 8ページ</div>
-    </form>
-  </div>
-
+  <form id="diagnosisForm">
+    <h1>成婚力診断</h1>
+    <div class="category-banner">印象力</div>
+    <div class="sub-label">※ 全10問</div>
+    <div id="questions"></div>
+    <button type="submit">▶ 次へ進む</button>
+    <div class="progress">1 / 8 ページ</div>
+  </form>
   <script>
-    const questions = [
+    const questionsText = [
       "初対面で笑顔を保つことを意識していますか？",
       "挨拶時に丁寧な言葉遣いをしていますか？",
       "お見合いの場でリラックスした雰囲気を作ることができますか？",
@@ -102,28 +95,25 @@
       "笑顔やジェスチャーで親しみやすさを表現していますか？",
       "挨拶後、自然な流れで会話を始めることが得意ですか？"
     ];
-
-    const container = document.getElementById("questions");
-    questions.forEach((q, index) => {
-      const block = document.createElement("div");
-      block.className = "question";
-      block.innerHTML = `
-        <p>Q${index + 1}. ${q}</p>
-        <label><input type="radio" name="q${index}" value="3" required> 当てはまる</label>
-        <label><input type="radio" name="q${index}" value="2"> どちらでもない</label>
-        <label><input type="radio" name="q${index}" value="1"> 当てはまらない</label>
-      `;
+    const container = document.getElementById('questions');
+    questionsText.forEach((q, i) => {
+      const block = document.createElement('div');
+      block.className = 'question-block';
+      block.innerHTML = `<p><strong>Q${i + 1}. ${q}</strong></p>
+        <label><input type="radio" name="q${i}" value="2" required> 当てはまる</label>
+        <label><input type="radio" name="q${i}" value="1"> どちらでもない</label>
+        <label><input type="radio" name="q${i}" value="0"> 当てはまらない</label>`;
       container.appendChild(block);
     });
 
-    document.getElementById("form1").addEventListener("submit", function (e) {
+    document.getElementById('diagnosisForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      let score = 0;
       const formData = new FormData(this);
-      for (let value of formData.values()) {
+      let score = 0;
+      for (let [name, value] of formData.entries()) {
         score += parseInt(value);
       }
-      sessionStorage.setItem("score_impression", score);
+      sessionStorage.setItem("impressionScore", score);
       window.location.href = "form-2.html";
     });
   </script>
