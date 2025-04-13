@@ -1,23 +1,22 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>診断結果</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>診断結果</h1>
-    <div class="score-summary" id="totalScoreDisplay"></div>
+    <div id="totalScoreDisplay" class="score-summary"></div>
     <canvas id="radarChart" width="400" height="400"></canvas>
     <div id="categoryScores" class="score-summary"></div>
     <div id="feedbackContainer"></div>
     <div class="button-area">
-      <a href="index.html">TOPページに戻る</a>
-      <a href="https://page.line.me/everything.shonan" target="_blank">LINEで相談</a>
-      <a href="https://everything-shonan.jp/contact/" target="_blank">無料カウンセリング予約</a>
-      <button onclick="window.print()">PDF出力・印刷</button>
+      <a href="index.html">TOPページへ戻る</a>
     </div>
   </div>
   <script src="script.js"></script>
