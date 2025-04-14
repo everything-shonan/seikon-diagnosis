@@ -1,1 +1,5 @@
-/* style.css for result page styling */
+body {
+  font-family: sans-serif;
+  background: #f0faff;
+  color: #003b63;
+}

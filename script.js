@@ -1,1 +1,2 @@
-// script.js will contain logic to handle score and comments
+// JavaScriptファイルの仮コード
+console.log('Script loaded');
