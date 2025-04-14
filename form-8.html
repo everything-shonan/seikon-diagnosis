@@ -64,18 +64,7 @@
     <p style="margin-top: 1em;">8 / 8 ページ</p>
   </form>
   <script>
-    const questions = [
-      'デート後に適切なタイミングでフォローアップの連絡をしていますか？',
-      '次のステップを計画的に提案することを意識していますか？',
-      '相手の反応に基づいた行動をすることが得意ですか？',
-      'タイミングを逃さないために事前準備をしていますか？',
-      '相手のスケジュールを考慮して行動を決めていますか？',
-      '急がず適切な間を取ることができますか？',
-      '理想的なタイミングで次のアクションを起こす工夫をしていますか？',
-      'ゴール達成に向けた行動を計画的に進める努力をしていますか？',
-      '相手の感情や反応に注意を払い、タイミングを見極めていますか？',
-      '過去の行動を振り返り、改善ポイントを次回に活かしていますか？'
-    ];
+    const questions = ['1番目の進展力の質問です', '2番目の進展力の質問です', '3番目の進展力の質問です', '4番目の進展力の質問です', '5番目の進展力の質問です', '6番目の進展力の質問です', '7番目の進展力の質問です', '8番目の進展力の質問です', '9番目の進展力の質問です', '10番目の進展力の質問です'];
     const container = document.getElementById('questions');
     questions.forEach((q, i) => {
       const index = i + 71;
@@ -90,26 +79,12 @@
 
     document.getElementById('diagnosisForm').addEventListener('submit', function(e) {
       e.preventDefault();
-
       const formData = new FormData(this);
-      let progressScore = 0;
-      for (let [name, value] of formData.entries()) {
-        progressScore += parseInt(value);
+      let score = 0;
+      for (const [_, value] of formData.entries()) {
+        score += parseInt(value);
       }
-      sessionStorage.setItem("progressScore", progressScore);
-
-      const scores = {
-        impression: parseInt(sessionStorage.getItem("impressionScore") || "0"),
-        empathy: parseInt(sessionStorage.getItem("empathyScore") || "0"),
-        observation: parseInt(sessionStorage.getItem("observationScore") || "0"),
-        insight: parseInt(sessionStorage.getItem("insightScore") || "0"),
-        proposal: parseInt(sessionStorage.getItem("proposalScore") || "0"),
-        expression: parseInt(sessionStorage.getItem("expressionScore") || "0"),
-        communication: parseInt(sessionStorage.getItem("communicationScore") || "0"),
-        progress: progressScore
-      };
-
-      sessionStorage.setItem("diagnosisScores", JSON.stringify(scores));
+      sessionStorage.setItem("progressScore", score);
       window.location.href = "result.html";
     });
   </script>

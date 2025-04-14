@@ -60,11 +60,11 @@
     <div class="category-banner">会話力</div>
     <div class="note">※全10問</div>
     <div id="questions"></div>
-    <button type="submit">次へ ▶</button>
+    <button type="submit">次へ進む ▶</button>
     <p style="margin-top: 1em;">7 / 8 ページ</p>
   </form>
   <script>
-    const questions = ['相手が答えやすい質問を自然にすることが得意ですか？', '会話が途切れた際に新しい話題を提供できますか？', '相手の話を深めるためのフォローアップの質問が得意ですか？', '相手の話に興味を持つ努力をしていますか？', '相手が話しやすいペースで進めることを意識していますか？', '話題を相手の趣味や興味に沿って選ぶことができますか？', '会話中に適切なリアクションを取り、相手をリラックスさせることが得意ですか？', '相手の話に対してポジティブな言葉で応じていますか？', '相手が楽しめる会話の雰囲気を作る努力をしていますか？', '会話の流れを壊さず自然に次の話題に進めていますか？'];
+    const questions = ['1番目の会話力の質問です', '2番目の会話力の質問です', '3番目の会話力の質問です', '4番目の会話力の質問です', '5番目の会話力の質問です', '6番目の会話力の質問です', '7番目の会話力の質問です', '8番目の会話力の質問です', '9番目の会話力の質問です', '10番目の会話力の質問です'];
     const container = document.getElementById('questions');
     questions.forEach((q, i) => {
       const index = i + 61;
@@ -76,8 +76,15 @@
         <label><input type="radio" name="q${index}" value="1"> 当てはまらない</label>`;
       container.appendChild(block);
     });
+
     document.getElementById('diagnosisForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      const formData = new FormData(this);
+      let score = 0;
+      for (const [_, value] of formData.entries()) {
+        score += parseInt(value);
+      }
+      sessionStorage.setItem("communicationScore", score);
       window.location.href = "form-8.html";
     });
   </script>

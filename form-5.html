@@ -60,11 +60,11 @@
     <div class="category-banner">提案力</div>
     <div class="note">※全10問</div>
     <div id="questions"></div>
-    <button type="submit">次へ ▶</button>
+    <button type="submit">次へ進む ▶</button>
     <p style="margin-top: 1em;">5 / 8 ページ</p>
   </form>
   <script>
-    const questions = ['相手が楽しめるようなデートプランを考えることに自信がありますか？', '相手の反応を見ながら提案を調整できますか？', '提案が相手にとって負担にならないように工夫していますか？', 'デートの内容を具体的に説明し、わかりやすく伝えることができますか？', '相手の話から得た情報を基に提案を組み立てていますか？', '提案にポジティブな要素を含める努力をしていますか？', '相手の意見を取り入れながらアイデアを形にすることが得意ですか？', '相手に選択肢を提示し、その中から選んでもらう形を取っていますか？', '相手が提案に納得できるような理由付けをしていますか？', '提案が断られた場合でも、柔軟に対応していますか？'];
+    const questions = ['1番目の提案力の質問です', '2番目の提案力の質問です', '3番目の提案力の質問です', '4番目の提案力の質問です', '5番目の提案力の質問です', '6番目の提案力の質問です', '7番目の提案力の質問です', '8番目の提案力の質問です', '9番目の提案力の質問です', '10番目の提案力の質問です'];
     const container = document.getElementById('questions');
     questions.forEach((q, i) => {
       const index = i + 41;
@@ -76,8 +76,15 @@
         <label><input type="radio" name="q${index}" value="1"> 当てはまらない</label>`;
       container.appendChild(block);
     });
+
     document.getElementById('diagnosisForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      const formData = new FormData(this);
+      let score = 0;
+      for (const [_, value] of formData.entries()) {
+        score += parseInt(value);
+      }
+      sessionStorage.setItem("proposalScore", score);
       window.location.href = "form-6.html";
     });
   </script>

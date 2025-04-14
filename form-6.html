@@ -60,11 +60,11 @@
     <div class="category-banner">表現力</div>
     <div class="note">※全10問</div>
     <div id="questions"></div>
-    <button type="submit">次へ ▶</button>
+    <button type="submit">次へ進む ▶</button>
     <p style="margin-top: 1em;">6 / 8 ページ</p>
   </form>
   <script>
-    const questions = ['自分の考えをわかりやすく説明することが得意ですか？', '相手が関心を持つようなエピソードを交えた話し方をしていますか？', '自分の魅力を誇張せず自然に伝える努力をしていますか？', 'ポジティブな雰囲気を作る言葉選びを意識していますか？', '話の内容に合わせた身振りや表情を使っていますか？', '誠実さが伝わる話し方を心がけていますか？', '自分の価値観を具体的に伝えることができますか？', '相手にわかりやすく伝えるために、話題の構成を工夫していますか？', '自分の意見や考えを自信を持って話すことができますか？', '話の内容が一貫していることを意識していますか？'];
+    const questions = ['1番目の表現力の質問です', '2番目の表現力の質問です', '3番目の表現力の質問です', '4番目の表現力の質問です', '5番目の表現力の質問です', '6番目の表現力の質問です', '7番目の表現力の質問です', '8番目の表現力の質問です', '9番目の表現力の質問です', '10番目の表現力の質問です'];
     const container = document.getElementById('questions');
     questions.forEach((q, i) => {
       const index = i + 51;
@@ -76,8 +76,15 @@
         <label><input type="radio" name="q${index}" value="1"> 当てはまらない</label>`;
       container.appendChild(block);
     });
+
     document.getElementById('diagnosisForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      const formData = new FormData(this);
+      let score = 0;
+      for (const [_, value] of formData.entries()) {
+        score += parseInt(value);
+      }
+      sessionStorage.setItem("expressionScore", score);
       window.location.href = "form-7.html";
     });
   </script>

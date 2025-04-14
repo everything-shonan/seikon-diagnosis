@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>成婚力診断</title>
+  <title>成婚力診断 - 共感力</title>
   <style>
     body {
       font-family: sans-serif;
-      background: #e9f4fb;
+      background: #f0faff;
+      color: #003b63;
       padding: 2em;
       text-align: center;
-      color: #003b63;
     }
     form {
       background: #ffffff;
@@ -20,100 +20,71 @@
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 91, 154, 0.1);
     }
-    .banner {
-      background: #cceeff;
-      color: #003b63;
-      font-weight: bold;
-      padding: 0.8em;
-      border-radius: 8px;
-      margin-bottom: 0.3em;
-      font-size: 1.3em;
+    h1 {
+      color: #005b9a;
     }
-    .sub-label {
-      margin-bottom: 1.5em;
-      font-size: 0.9em;
-      color: #666;
+    .category-banner {
+      background-color: #d0ecff;
+      color: #003b63;
+      padding: 1em;
+      font-size: 1.4em;
+      border-radius: 8px;
+      margin-bottom: 0.5em;
     }
     .question-block {
-      margin-bottom: 2em;
+      margin: 1.5em 0;
       text-align: left;
-      background-color: #f3faff;
-      padding: 1em;
-      border-radius: 6px;
-      border-left: 4px solid #007acc;
     }
-    .question-block p {
-      font-weight: bold;
-    }
-    .question-block label {
+    label {
       display: block;
-      margin: 0.5em 0;
-      padding-left: 1em;
+      margin: 0.3em 0;
+    }
+    .note {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 1em;
     }
     button {
       padding: 1em 2em;
       font-weight: bold;
-      border: none;
       background: #007acc;
-      color: #fff;
+      color: white;
+      border: none;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 1em;
-    }
-    button:hover {
-      background: #005b9a;
-    }
-    .progress {
-      margin-top: 2em;
-      font-size: 0.9em;
-      color: #555;
     }
   </style>
 </head>
 <body>
-  <form id="empathyForm">
-    <div class="banner">共感力</div>
-    <div class="sub-label">※10問</div>
+  <form id="diagnosisForm">
+    <div class="category-banner">共感力</div>
+    <div class="note">※全10問</div>
     <div id="questions"></div>
-    <button type="submit">▶ 次へ進む</button>
-    <div class="progress">2 / 8 ページ</div>
+    <button type="submit">次へ進む ▶</button>
+    <p style="margin-top: 1em;">2 / 8 ページ</p>
   </form>
-
   <script>
-    const questions = [
-      "相手が話している間、適切に相槌を打つことを心がけていますか？",
-      "相手が話しやすいように笑顔や柔らかい表情を意識していますか？",
-      "相手の意見を否定せず、受け入れる姿勢を持っていますか？",
-      "相手の感情を察し、その場に適した対応ができますか？",
-      "相手に共感を示すリアクションが自然に取れますか？",
-      "相手が話す内容に対して深い関心を持つ努力をしていますか？",
-      "相手が緊張していると感じたとき、雰囲気を和らげる行動を取っていますか？",
-      "相手の発言を尊重し、相手を立てるコミュニケーションが得意ですか？",
-      "相手の話から共通点を見つけ、それを話題に繋げることができますか？",
-      "相手が心地よく感じる言葉選びを意識していますか？"
-    ];
-
-    const container = document.getElementById("questions");
+    const questions = ['1番目の共感力の質問です', '2番目の共感力の質問です', '3番目の共感力の質問です', '4番目の共感力の質問です', '5番目の共感力の質問です', '6番目の共感力の質問です', '7番目の共感力の質問です', '8番目の共感力の質問です', '9番目の共感力の質問です', '10番目の共感力の質問です'];
+    const container = document.getElementById('questions');
     questions.forEach((q, i) => {
-      const block = document.createElement("div");
-      block.className = "question-block";
-      block.innerHTML = `
-        <p>Q${i + 1}. ${q}</p>
-        <label><input type="radio" name="q${i}" value="2" required> 当てはまる</label>
-        <label><input type="radio" name="q${i}" value="1"> どちらでもない</label>
-        <label><input type="radio" name="q${i}" value="0"> 当てはまらない</label>
-      `;
+      const index = i + 11;
+      const block = document.createElement('div');
+      block.className = 'question-block';
+      block.innerHTML = `<p><strong>Q${i + 1}.</strong> ${q}</p>
+        <label><input type="radio" name="q${index}" value="3" required> 当てはまる</label>
+        <label><input type="radio" name="q${index}" value="2"> どちらでもない</label>
+        <label><input type="radio" name="q${index}" value="1"> 当てはまらない</label>`;
       container.appendChild(block);
     });
 
-    document.getElementById("empathyForm").addEventListener("submit", function(e) {
+    document.getElementById('diagnosisForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      let score = 0;
       const formData = new FormData(this);
-      for (let value of formData.values()) {
+      let score = 0;
+      for (const [_, value] of formData.entries()) {
         score += parseInt(value);
       }
-      sessionStorage.setItem("empathy", score);
+      sessionStorage.setItem("empathyScore", score);
       window.location.href = "form-3.html";
     });
   </script>

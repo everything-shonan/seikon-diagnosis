@@ -60,22 +60,11 @@
     <div class="category-banner">洞察力</div>
     <div class="note">※全10問</div>
     <div id="questions"></div>
-    <button type="submit">次へ ▶</button>
+    <button type="submit">次へ進む ▶</button>
     <p style="margin-top: 1em;">4 / 8 ページ</p>
   </form>
   <script>
-    const questions = [
-      "相手の発言の裏にある意図を読み取ることが得意ですか？",
-      "相手の沈黙や間から感情を察する努力をしていますか？",
-      "相手の価値観や希望を深く理解しようとしていますか？",
-      "相手が使う言葉の選び方から性格を察知することができますか？",
-      "相手の一言から深い意味を汲み取ることを意識していますか？",
-      "相手が言葉にしない感情や考えを推測できますか？",
-      "相手の考えを引き出すタイミングを見極めることが得意ですか？",
-      "会話の中で相手が考え込む瞬間を察知して、適切に対応できますか？",
-      "相手の希望を自然に引き出す質問を意識していますか？",
-      "会話中の細かなニュアンスを捉え、それに応じて対応していますか？"
-    ];
+    const questions = ['1番目の洞察力の質問です', '2番目の洞察力の質問です', '3番目の洞察力の質問です', '4番目の洞察力の質問です', '5番目の洞察力の質問です', '6番目の洞察力の質問です', '7番目の洞察力の質問です', '8番目の洞察力の質問です', '9番目の洞察力の質問です', '10番目の洞察力の質問です'];
     const container = document.getElementById('questions');
     questions.forEach((q, i) => {
       const index = i + 31;
@@ -87,8 +76,15 @@
         <label><input type="radio" name="q${index}" value="1"> 当てはまらない</label>`;
       container.appendChild(block);
     });
+
     document.getElementById('diagnosisForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      const formData = new FormData(this);
+      let score = 0;
+      for (const [_, value] of formData.entries()) {
+        score += parseInt(value);
+      }
+      sessionStorage.setItem("insightScore", score);
       window.location.href = "form-5.html";
     });
   </script>

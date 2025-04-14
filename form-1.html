@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>成婚力診断</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>成婚力診断 - 印象力</title>
   <style>
     body {
       font-family: sans-serif;
-      background: #e9f4fb;
+      background: #f0faff;
+      color: #003b63;
       padding: 2em;
       text-align: center;
-      color: #003b63;
     }
     form {
       background: #ffffff;
@@ -22,87 +22,58 @@
     }
     h1 {
       color: #005b9a;
-      font-size: 2em;
-      margin-bottom: 0.5em;
     }
     .category-banner {
-      background: #b3e5fc;
-      color: #01579b;
-      font-weight: bold;
-      padding: 0.5em;
+      background-color: #d0ecff;
+      color: #003b63;
+      padding: 1em;
+      font-size: 1.4em;
       border-radius: 8px;
-      margin-bottom: 0.2em;
-      font-size: 1.2em;
-    }
-    .sub-label {
-      margin-bottom: 1em;
-      font-size: 0.9em;
-      color: #555;
+      margin-bottom: 0.5em;
     }
     .question-block {
-      margin-bottom: 2em;
+      margin: 1.5em 0;
       text-align: left;
-      background-color: #f3faff;
-      padding: 1em;
-      border-radius: 6px;
-      border-left: 4px solid #007acc;
     }
-    .question-block label {
+    label {
       display: block;
-      margin: 0.5em 0;
-      padding: 0.4em;
-      background: #fff;
-      border-radius: 4px;
+      margin: 0.3em 0;
+    }
+    .note {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 1em;
     }
     button {
       padding: 1em 2em;
       font-weight: bold;
-      border: none;
       background: #007acc;
-      color: #fff;
+      color: white;
+      border: none;
       border-radius: 8px;
       cursor: pointer;
-    }
-    button:hover {
-      background: #005b9a;
-    }
-    .progress {
-      margin-top: 1em;
-      font-size: 0.9em;
-      color: #666;
     }
   </style>
 </head>
 <body>
   <form id="diagnosisForm">
-    <h1>成婚力診断</h1>
     <div class="category-banner">印象力</div>
-    <div class="sub-label">※ 全10問</div>
+    <div class="note">※全10問</div>
     <div id="questions"></div>
-    <button type="submit">▶ 次へ進む</button>
-    <div class="progress">1 / 8 ページ</div>
+    <button type="submit">次へ進む ▶</button>
+    <p style="margin-top: 1em;">1 / 8 ページ</p>
   </form>
   <script>
-    const questionsText = [
-      "初対面で笑顔を保つことを意識していますか？",
-      "挨拶時に丁寧な言葉遣いをしていますか？",
-      "お見合いの場でリラックスした雰囲気を作ることができますか？",
-      "清潔感を重視した服装で臨んでいますか？",
-      "自分の話し方が落ち着いていることを意識していますか？",
-      "話すトーンやペースを相手に合わせていますか？",
-      "目を合わせることで親しみを感じさせる努力をしていますか？",
-      "第一印象の重要性を理解し、意識的に行動していますか？",
-      "笑顔やジェスチャーで親しみやすさを表現していますか？",
-      "挨拶後、自然な流れで会話を始めることが得意ですか？"
-    ];
+    const questions = ['1番目の印象力の質問です', '2番目の印象力の質問です', '3番目の印象力の質問です', '4番目の印象力の質問です', '5番目の印象力の質問です', '6番目の印象力の質問です', '7番目の印象力の質問です', '8番目の印象力の質問です', '9番目の印象力の質問です', '10番目の印象力の質問です'];
     const container = document.getElementById('questions');
-    questionsText.forEach((q, i) => {
+    questions.forEach((q, i) => {
+      const index = i + 1;
       const block = document.createElement('div');
       block.className = 'question-block';
-      block.innerHTML = `<p><strong>Q${i + 1}. ${q}</strong></p>
-        <label><input type="radio" name="q${i}" value="2" required> 当てはまる</label>
-        <label><input type="radio" name="q${i}" value="1"> どちらでもない</label>
-        <label><input type="radio" name="q${i}" value="0"> 当てはまらない</label>`;
+      block.innerHTML = `<p><strong>Q${i + 1}.</strong> ${q}</p>
+        <label><input type="radio" name="q${index}" value="3" required> 当てはまる</label>
+        <label><input type="radio" name="q${index}" value="2"> どちらでもない</label>
+        <label><input type="radio" name="q${index}" value="1"> 当てはまらない</label>`;
       container.appendChild(block);
     });
 
@@ -110,10 +81,10 @@
       e.preventDefault();
       const formData = new FormData(this);
       let score = 0;
-      for (let [name, value] of formData.entries()) {
+      for (const [_, value] of formData.entries()) {
         score += parseInt(value);
       }
-      sessionStorage.setItem("impression", score);
+      sessionStorage.setItem("impressionScore", score);
       window.location.href = "form-2.html";
     });
   </script>
