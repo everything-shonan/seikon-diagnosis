@@ -3,19 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>成婚力診断 - 共感力</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>成婚力診断</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #e9f4fb;
+      padding: 2em;
+      text-align: center;
+      color: #003b63;
+    }
+    form {
+      background: #ffffff;
+      max-width: 800px;
+      margin: auto;
+      padding: 2em;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 91, 154, 0.1);
+    }
+    .banner {
+      background: #cceeff;
+      color: #003b63;
+      font-weight: bold;
+      padding: 0.8em;
+      border-radius: 8px;
+      margin-bottom: 0.3em;
+      font-size: 1.3em;
+    }
+    .sub-label {
+      margin-bottom: 1.5em;
+      font-size: 0.9em;
+      color: #666;
+    }
+    .question-block {
+      margin-bottom: 2em;
+      text-align: left;
+      background-color: #f3faff;
+      padding: 1em;
+      border-radius: 6px;
+      border-left: 4px solid #007acc;
+    }
+    .question-block p {
+      font-weight: bold;
+    }
+    .question-block label {
+      display: block;
+      margin: 0.5em 0;
+      padding-left: 1em;
+    }
+    button {
+      padding: 1em 2em;
+      font-weight: bold;
+      border: none;
+      background: #007acc;
+      color: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    button:hover {
+      background: #005b9a;
+    }
+    .progress {
+      margin-top: 2em;
+      font-size: 0.9em;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-  <form id="diagnosisForm">
-    <div class="category-banner">共感力</div>
-    <div class="question-count">※10問</div>
+  <form id="empathyForm">
+    <div class="banner">共感力</div>
+    <div class="sub-label">※10問</div>
     <div id="questions"></div>
-    <div class="progress">2 / 8 ページ</div>
     <button type="submit">▶ 次へ進む</button>
+    <div class="progress">2 / 8 ページ</div>
   </form>
+
   <script>
-    const questionsText = [
+    const questions = [
       "相手が話している間、適切に相槌を打つことを心がけていますか？",
       "相手が話しやすいように笑顔や柔らかい表情を意識していますか？",
       "相手の意見を否定せず、受け入れる姿勢を持っていますか？",
@@ -28,30 +93,27 @@
       "相手が心地よく感じる言葉選びを意識していますか？"
     ];
 
-    const container = document.getElementById('questions');
-    questionsText.forEach((q, i) => {
-      const block = document.createElement('div');
-      block.className = 'question-block';
-      block.innerHTML = `<p><strong>Q${i + 1}.</strong> ${q}</p>
-        <label><input type="radio" name="q${String(i + 11).padStart(2, '0')}" value="2" required> 当てはまる</label>
-        <label><input type="radio" name="q${String(i + 11).padStart(2, '0')}" value="1"> どちらでもない</label>
-        <label><input type="radio" name="q${String(i + 11).padStart(2, '0')}" value="0"> 当てはまらない</label>`;
+    const container = document.getElementById("questions");
+    questions.forEach((q, i) => {
+      const block = document.createElement("div");
+      block.className = "question-block";
+      block.innerHTML = `
+        <p>Q${i + 1}. ${q}</p>
+        <label><input type="radio" name="q${i}" value="2" required> 当てはまる</label>
+        <label><input type="radio" name="q${i}" value="1"> どちらでもない</label>
+        <label><input type="radio" name="q${i}" value="0"> 当てはまらない</label>
+      `;
       container.appendChild(block);
     });
 
-    document.getElementById('diagnosisForm').addEventListener('submit', function(e) {
+    document.getElementById("empathyForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      const formData = new FormData(this);
-      const previousScores = JSON.parse(sessionStorage.getItem("diagnosisScores")) || {
-        impression: 0, empathy: 0, observation: 0, insight: 0,
-        proposal: 0, expression: 0, communication: 0, progress: 0
-      };
       let score = 0;
-      for (let i = 11; i <= 20; i++) {
-        score += parseInt(formData.get(`q${String(i).padStart(2, '0')}`));
+      const formData = new FormData(this);
+      for (let value of formData.values()) {
+        score += parseInt(value);
       }
-      previousScores.empathy = score;
-      sessionStorage.setItem("diagnosisScores", JSON.stringify(previousScores));
+      sessionStorage.setItem("empathyScore", score);
       window.location.href = "form-3.html";
     });
   </script>
