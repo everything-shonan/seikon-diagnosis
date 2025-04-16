@@ -64,7 +64,18 @@
     <p style="margin-top: 1em;">7 / 8 ページ</p>
   </form>
   <script>
-    const questions = ['1番目の会話力の質問です', '2番目の会話力の質問です', '3番目の会話力の質問です', '4番目の会話力の質問です', '5番目の会話力の質問です', '6番目の会話力の質問です', '7番目の会話力の質問です', '8番目の会話力の質問です', '9番目の会話力の質問です', '10番目の会話力の質問です'];
+    const questions = [
+      '会話中に相手が話しやすい雰囲気を意識していますか？',
+      '質問ばかりでなく、自分の話もバランスよく伝えていますか？',
+      '相手の話を途中で遮らず、最後まで聞くようにしていますか？',
+      '相手の言葉を繰り返したり、言い換えて理解を示すことがありますか？',
+      '「それってどういうこと？」など、深掘りする質問を意識していますか？',
+      '共通点や関心のある話題を見つけようとしていますか？',
+      '会話の内容だけでなく、気持ちに寄り添った反応を意識していますか？',
+      '相手が話し終えるまで待ち、沈黙を恐れずに受け入れられますか？',
+      '自分の話ばかりになっていないかを振り返ることがありますか？',
+      '相手の表情やトーンから気持ちを読み取りながら会話していますか？'
+    ];
     const container = document.getElementById('questions');
     questions.forEach((q, i) => {
       const index = i + 61;
@@ -84,7 +95,7 @@
       for (const [_, value] of formData.entries()) {
         score += parseInt(value);
       }
-      sessionStorage.setItem("communicationScore", score);
+      sessionStorage.setItem("conversationScore", score);
       window.location.href = "form-8.html";
     });
   </script>
