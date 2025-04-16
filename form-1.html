@@ -34,10 +34,16 @@
     .question-block {
       margin: 1.5em 0;
       text-align: left;
+      background-color: #f3faff;
+      padding: 1em;
+      border-radius: 8px;
     }
     label {
       display: block;
       margin: 0.3em 0;
+      padding: 0.3em;
+      background: #eef6fb;
+      border-radius: 6px;
     }
     .note {
       font-size: 0.9em;
@@ -53,6 +59,14 @@
       border-radius: 8px;
       cursor: pointer;
     }
+    @media (max-width: 600px) {
+      body {
+        padding: 1em;
+      }
+      .category-banner {
+        font-size: 1.2em;
+      }
+    }
   </style>
 </head>
 <body>
@@ -64,16 +78,30 @@
     <p style="margin-top: 1em;">1 / 8 ページ</p>
   </form>
   <script>
-    const questions = ['1番目の印象力の質問です', '2番目の印象力の質問です', '3番目の印象力の質問です', '4番目の印象力の質問です', '5番目の印象力の質問です', '6番目の印象力の質問です', '7番目の印象力の質問です', '8番目の印象力の質問です', '9番目の印象力の質問です', '10番目の印象力の質問です'];
+    const questions = [
+      "初対面で笑顔を心がけていますか？",
+      "あいさつの際に、丁寧な言葉づかいを意識していますか？",
+      "清潔感のある服装や髪型を意識していますか？",
+      "話すスピードやトーンを相手に合わせていますか？",
+      "お見合いやデートの場で緊張を和らげる雰囲気づくりをしていますか？",
+      "相手の目を見て話すことを意識していますか？",
+      "第一印象が大切だと感じ、準備や振る舞いに気を配っていますか？",
+      "自分の話し方が落ち着いていると感じますか？",
+      "身だしなみによって、相手への印象が変わると意識していますか？",
+      "あいさつ後に、自然な会話のきっかけをつくれていますか？"
+    ];
+
     const container = document.getElementById('questions');
     questions.forEach((q, i) => {
       const index = i + 1;
       const block = document.createElement('div');
       block.className = 'question-block';
-      block.innerHTML = `<p><strong>Q${i + 1}.</strong> ${q}</p>
+      block.innerHTML = `
+        <p><strong>Q${index}.</strong> ${q}</p>
         <label><input type="radio" name="q${index}" value="3" required> 当てはまる</label>
         <label><input type="radio" name="q${index}" value="2"> どちらでもない</label>
-        <label><input type="radio" name="q${index}" value="1"> 当てはまらない</label>`;
+        <label><input type="radio" name="q${index}" value="1"> 当てはまらない</label>
+      `;
       container.appendChild(block);
     });
 
