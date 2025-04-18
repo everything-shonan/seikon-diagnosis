@@ -1,30 +1,78 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>診断結果 - 成婚力診断</title><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><style>body{font-family:sans-serif;background:#f0faff;color:#003b63;margin:0;padding:1.5em;}h1{font-size:1.6em;text-align:center;margin-bottom:1em;color:#005b9a;}.score-summary{background:white;border-radius:12px;padding:1em;box-shadow:0 2px 10px rgba(0,0,0,0.08);text-align:center;margin-bottom:1.5em;}.score-summary h2{margin:0;font-size:1.3em;}.score-summary p{font-size:0.95em;margin-top:0.5em;}canvas{margin:2em auto;max-width:100%;}.category-box{background:#fff;padding:1em;border-radius:12px;box-shadow:0 1px 5px rgba(0,0,0,0.05);margin-bottom:1em;}.category-title{display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:1em;}.badge{background:#007acc;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:bold;}.advice-block{font-size:0.95em;margin-top:0.5em;padding:0.7em;border-left:4px solid #007acc;background:#f8fcff;border-radius:6px;}.button-group{display:flex;flex-wrap:wrap;justify-content:center;gap:0.6em;margin-top:2em;}.button,.link-button{display:inline-block;text-align:center;text-decoration:none;font-weight:bold;padding:1em;border-radius:8px;font-size:0.95em;color:#fff;width:100%;max-width:220px;}.button{background:#007acc;}.link-button.secondary{background:#005b9a;}.link-button.line{background:#00b900;}</style></head><body>
-<h1>あなたの診断結果</h1>
-<div class="score-summary"><h2 id="totalScore">総合スコア：--点</h2><p id="rankComment">診断中…</p></div>
-<canvas id="radarChart"></canvas><div id="categoryResults"></div>
-<div class="button-group"><a href="form-1.html" class="button">もう一度診断する</a><a href="https://everything-shonan.jp/contact/" class="link-button secondary" target="_blank">無料カウンセリング</a><a href="https://page.line.me/everything.shonan" class="link-button line" target="_blank">LINEで相談する</a></div>
-<script>
-// コメントオブジェクト（省略、実運用時は全64パターンを記載）
-const comments = {"印象力":[],"共感力":[],"観察力":[],"洞察力":[],"提案力":[],"表現力":[],"会話力":[],"進展力":[]};
-const categories=["印象力","共感力","観察力","洞察力","提案力","表現力","会話力","進展力"];
-const keys=["impressionScore","empathyScore","observationScore","insightScore","proposalScore","expressionScore","conversationScore","progressScore"];
-const scores=keys.map(k=>parseInt(sessionStorage.getItem(k)||0)),total=scores.reduce((a,b)=>a+b,0);
-const rankData=[{min:270,label:"Sランク（成婚力MAX）",comment:"素晴らしい成婚力です！この調子で進めば理想のパートナーに出会えるでしょう。"},
-{min:210,label:"Aランク（安定型）",comment:"成婚力は高めです。さらに磨きをかければ完璧です！"},
-{min:150,label:"Bランク（改善の余地あり）",comment:"良い部分もありますが、まだ伸ばせる力があります。"},
-{min:90,label:"Cランク（要改善）",comment:"基礎から見直すことで大きく成長できる可能性があります。"},
-{min:0,label:"Dランク（努力が必要）",comment:"これからの行動次第で成婚力は大きく変わります！"}];
-const currentRank=rankData.find(r=>total>=r.min);
-document.getElementById("totalScore").textContent=`総合スコア：${total}点（${currentRank.label}）`;
-document.getElementById("rankComment").textContent=currentRank.comment;
-new Chart(document.getElementById("radarChart"),{type:"radar",data:{labels:categories,datasets:[{label:"成婚力スコア",data:scores,fill:true,borderColor:"#007acc",backgroundColor:"rgba(0,122,204,0.2)",pointBackgroundColor:"#007acc"}]},options:{responsive:true,scales:{r:{suggestedMin:0,suggestedMax:30,ticks:{stepSize:10},pointLabels:{font:{size:14}}}}}});
-const categoryResults=document.getElementById("categoryResults");
-categories.forEach((cat,i)=>{const score=scores[i],level=score>=27?3:score>=21?2:score>=15?1:0;const labels=["要改善","改善の余地あり","安定型","成婚力MAX"],block=document.createElement("div");block.className="category-box";
-block.innerHTML=`<div class="category-title"><span>${cat}</span><span class="badge">${score}</span></div>
-<div class="advice-block">「${cat}」の評価は「${labels[level]}」です。${comments[cat][level]?.comment||""}</div>
-<div class="advice-block" style="background:#eef8fc;border-left-color:#00a0e6;">営業的アドバイス：${comments[cat][level]?.advice||""}</div>`;categoryResults.appendChild(block);});
-</script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>診断結果 - 成婚力診断</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body{font-family:sans-serif;background:#f0faff;color:#003b63;margin:0;padding:1.5em;}
+    h1{font-size:1.6em;text-align:center;margin-bottom:1em;color:#005b9a;}
+    .score-summary{background:white;border-radius:12px;padding:1em;box-shadow:0 2px 10px rgba(0,0,0,0.08);text-align:center;margin-bottom:1.5em;}
+    .score-summary h2{margin:0;font-size:1.3em;}
+    .score-summary p{font-size:0.95em;margin-top:0.5em;}
+    canvas{margin:2em auto;max-width:100%;}
+    .category-box{background:#fff;padding:1em;border-radius:12px;box-shadow:0 1px 5px rgba(0,0,0,0.05);margin-bottom:1em;}
+    .category-title{display:flex;justify-content:space-between;align-items:center;font-weight:bold;font-size:1em;}
+    .badge{background:#007acc;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:bold;}
+    .advice-block{font-size:0.95em;margin-top:0.5em;padding:0.7em;border-left:4px solid #007acc;background:#f8fcff;border-radius:6px;}
+    .button-group{display:flex;flex-wrap:wrap;justify-content:center;gap:0.6em;margin-top:2em;}
+    .button,.link-button{display:inline-block;text-align:center;text-decoration:none;font-weight:bold;padding:1em;border-radius:8px;font-size:0.95em;color:#fff;width:100%;max-width:220px;}
+    .button{background:#007acc;}
+    .link-button.secondary{background:#005b9a;}
+    .link-button.line{background:#00b900;}
+  </style>
+</head>
+<body>
+  <h1>あなたの診断結果</h1>
+  <div class="score-summary">
+    <h2 id="totalScore">総合スコア：--点</h2>
+    <p id="rankComment">診断中…</p>
+  </div>
+  <canvas id="radarChart"></canvas>
+  <div id="categoryResults"></div>
+  <div class="button-group">
+    <a href="form-1.html" class="button">もう一度診断する</a>
+    <a href="https://everything-shonan.jp/contact/" class="link-button secondary" target="_blank">無料カウンセリング</a>
+    <a href="https://page.line.me/everything.shonan" class="link-button line" target="_blank">LINEで相談する</a>
+  </div>
+  <script>
+    const comments = {
+      "印象力": [
+        { comment: "第一印象で損をしている可能性があります。緊張よりも『相手への思いやり』に意識を向けると印象は大きく変わります。", advice: "会った瞬間が“プレゼンの始まり”。鏡の前で表情・姿勢・声のトーンをチェックして、印象づけの準備を整えましょう。" },
+        { comment: "悪くはないものの、印象に残りにくい傾向が見られます。清潔感・笑顔・話し方の見直しが効果的です。", advice: "営業でも“入口のつかみ”が弱い状態。まずは相手の目を見る、ゆっくり話す、の2つから始めましょう。" },
+        { comment: "良い第一印象を持たれやすく、相手に安心感を与えるベースはできています。", advice: "あと一歩、“あなたらしさ”を演出できれば印象の残し方が変わります。見た目と所作に「自分の売り」を加えてみて。" },
+        { comment: "第一印象でしっかり信頼をつかめており、安心感を与える魅力が十分に備わっています。", advice: "初対面の「数秒」で信頼が決まるのは営業も婚活も同じ。今の印象力を武器に、会う回数を成果につなげましょう。" }
+      ],
+      // ...（他6カテゴリも同様に64パターンすべてを記載）
+    };
+    const categories=["印象力","共感力","観察力","洞察力","提案力","表現力","会話力","進展力"];
+    const keys=["impressionScore","empathyScore","observationScore","insightScore","proposalScore","expressionScore","conversationScore","progressScore"];
+    const scores=keys.map(k=>parseInt(sessionStorage.getItem(k)||0)), total=scores.reduce((a,b)=>a+b,0);
+    const rankData=[
+      {min:270,label:"Sランク（成婚力MAX）",comment:"素晴らしい成婚力です！この調子で進めば理想のパートナーに出会えるでしょう。"},
+      {min:210,label:"Aランク（安定型）",comment:"成婚力は高めです。さらに磨きをかければ完璧です！"},
+      {min:150,label:"Bランク（改善の余地あり）",comment:"良い部分もありますが、まだ伸ばせる力があります。"},
+      {min:90,label:"Cランク（要改善）",comment:"基礎から見直すことで大きく成長できる可能性があります。"},
+      {min:0,label:"Dランク（努力が必要）",comment:"これからの行動次第で成婚力は大きく変わります！"}
+    ];
+    const currentRank=rankData.find(r=>total>=r.min);
+    document.getElementById("totalScore").textContent=`総合スコア：${total}点（${currentRank.label}）`;
+    document.getElementById("rankComment").textContent=currentRank.comment;
+    new Chart(document.getElementById("radarChart"),{
+      type:"radar",data:{labels:categories,datasets:[{label:"成婚力スコア",data:scores,fill:true,borderColor:"#007acc",backgroundColor:"rgba(0,122,204,0.2)",pointBackgroundColor:"#007acc"}]},options:{responsive:true,scales:{r:{suggestedMin:0,suggestedMax:30,ticks:{stepSize:10},pointLabels:{font:{size:14}}}}}
+    });
+    const categoryResults=document.getElementById("categoryResults");
+    categories.forEach((cat,i)=>{
+      const score=scores[i];
+      const level=score>=27?3:score>=21?2:score>=15?1:0;
+      const labels=["要改善","改善の余地あり","安定型","成婚力MAX"];
+      const block=document.createElement("div");block.className="category-box";
+      block.innerHTML=`<div class="category-title"><span>${cat}</span><span class="badge">${score}</span></div>
+        <div class="advice-block">「${cat}」の評価は「${labels[level]}」です。${comments[cat][level].comment}</div>
+        <div class="advice-block" style="background:#eef8fc;border-left-color:#00a0e6;">営業的アドバイス：${comments[cat][level].advice}</div>`;
+      categoryResults.appendChild(block);
+    });
+  </script>
 </body>
 </html>
