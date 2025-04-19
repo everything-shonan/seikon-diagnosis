@@ -25,7 +25,14 @@
       .comment-block { font-size: 0.95em; }
       .buttons { flex-direction: column; }
     }
-  </style>
+  
+@media print {
+  .category-result {
+    page-break-inside: avoid;
+  }
+}
+
+</style>
 </head>
 <body>
   <h1>診断結果</h1>
