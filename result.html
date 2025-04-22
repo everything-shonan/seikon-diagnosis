@@ -1,1 +1,103 @@
-<!-- placeholder -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>成婚力診断 - 共感力</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0faff;
+      color: #003b63;
+      padding: 2em;
+      text-align: center;
+    }
+    form {
+      background: #ffffff;
+      max-width: 800px;
+      margin: auto;
+      padding: 2em;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 91, 154, 0.1);
+    }
+    h1 {
+      color: #005b9a;
+    }
+    .category-banner {
+      background-color: #d0ecff;
+      color: #003b63;
+      padding: 1em;
+      font-size: 1.4em;
+      border-radius: 8px;
+      margin-bottom: 0.5em;
+    }
+    .question-block {
+      margin: 1.5em 0;
+      text-align: left;
+    }
+    label {
+      display: block;
+      margin: 0.3em 0;
+    }
+    .note {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 1em;
+    }
+    button {
+      padding: 1em 2em;
+      font-weight: bold;
+      background: #007acc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <form id="diagnosisForm">
+    <div class="category-banner">共感力</div>
+    <div class="note">※全10問</div>
+    <div id="questions"></div>
+    <button type="submit">次へ進む ▶</button>
+    <p style="margin-top: 1em;">2 / 8 ページ</p>
+  </form>
+  <script>
+    const questions = [
+      '相手の話に、うなずきや相づちを交えて聞いていますか？',
+      '相手の気持ちを想像しながら会話を進めていますか？',
+      '相手の表情や声のトーンの変化に気づくことができますか？',
+      '自分の意見を押しつけず、相手の立場を尊重していますか？',
+      '相手が話しやすいように、安心できる雰囲気を意識していますか？',
+      '相手の感情に共感し、寄り添う姿勢を見せていますか？',
+      '「わかるよ」「そうだよね」といった共感の言葉を使っていますか？',
+      '相手の悩みや不安を否定せずに受け止めていますか？',
+      '相手の嬉しさや喜びを一緒に喜べていますか？',
+      '感情に寄り添ったリアクションを意識していますか？'
+    ];
+    const container = document.getElementById('questions');
+    questions.forEach((q, i) => {
+      const index = i + 11;
+      const block = document.createElement('div');
+      block.className = 'question-block';
+      block.innerHTML = <p><strong>Q${i + 1}.</strong> ${q}</p>
+        <label><input type="radio" name="q${index}" value="3" required> 当てはまる</label>
+        <label><input type="radio" name="q${index}" value="2"> どちらでもない</label>
+        <label><input type="radio" name="q${index}" value="1"> 当てはまらない</label>;
+      container.appendChild(block);
+    });
+
+    document.getElementById('diagnosisForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      let score = 0;
+      for (const [_, value] of formData.entries()) {
+        score += parseInt(value);
+      }
+      sessionStorage.setItem("empathyScore", score);
+      window.location.href = "form-3.html";
+    });
+  </script>
+</body>
+</html>
