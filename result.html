@@ -2,46 +2,35 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>診断結果 - 成婚力診断</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js">
-function updateName() {
-  const name = document.getElementById("userNameInput").value.trim() || "〇〇";
-  document.getElementById("user-name-display").textContent = ${name}さん｜総合スコア：245点｜Aランク（安定型）;
-}
-
-</script>
+  <!-- Chart.js (本体のみ) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body { font-family: sans-serif; background: #f0faff; color: #003b63; margin: 0; padding: 1.5em; }
-    h1 { font-size: 1.6em; text-align: center; margin-bottom: 1em; color: #005b9a; }
-    .score-summary, .comment-block { background: white; border-radius: 12px; padding: 1em; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 1.5em; }
-    .score-summary h2 { margin: 0; font-size: 1.3em; text-align: center; }
-    .score-summary p { font-size: 0.95em; margin-top: 0.5em; text-align: center; }
-    canvas { margin: 1em auto; display: block; max-width: 100%; }
-    .category-result { margin-bottom: 2em; }
-    .category-result h3 { border-left: 4px solid #007acc; padding-left: 0.5em; margin-top: 1em; }
-    .comment-block { display: flex; flex-direction: column; gap: 0.5em; }
-    .advice-label { font-weight: bold; color: #005b9a; margin-top: 0.5em; }
-    .buttons { display: flex; justify-content: center; gap: 1em; margin-top: 2em; flex-wrap: wrap; }
-    .buttons button, .buttons a {
-      background: #007acc; color: white; border: none; border-radius: 8px; padding: 0.6em 1.2em;
-      cursor: pointer; text-decoration: none; font-weight: bold;
-    }
-    @media (max-width: 600px) {
-      .comment-block { font-size: 0.95em; }
-      .buttons { flex-direction: column; }
-    }
+    body{font-family:sans-serif;background:#f0faff;color:#003b63;margin:0;padding:1.5em}
+    h1{font-size:1.6em;text-align:center;margin-bottom:1em;color:#005b9a}
+    .score-summary,.comment-block{background:#fff;border-radius:12px;padding:1em;box-shadow:0 2px 10px rgba(0,0,0,.08);margin-bottom:1.5em}
+    .score-summary h2{margin:0;font-size:1.3em;text-align:center}
+    .score-summary p{font-size:.95em;margin-top:.5em;text-align:center}
+    canvas{margin:1em auto;display:block;max-width:100%}
+    .category-result{margin-bottom:2em}
+    .category-result h3{border-left:4px solid #007acc;padding-left:.5em;margin-top:1em}
+    .comment-block{display:flex;flex-direction:column;gap:.5em}
+    .advice-label{font-weight:bold;color:#005b9a;margin-top:.5em}
+    .buttons{display:flex;justify-content:center;gap:1em;margin-top:2em;flex-wrap:wrap}
+    .buttons button,.buttons a{background:#007acc;color:#fff;border:none;border-radius:8px;padding:.6em 1.2em;cursor:pointer;text-decoration:none;font-weight:bold}
+    @media (max-width:600px){.comment-block{font-size:.95em}.buttons{flex-direction:column}}
   </style>
 </head>
 <body>
   <h1>診断結果</h1>
-  <div class="name-input" style="text-align: center; margin-bottom: 1em;">
-    <input type="text" id="userNameInput" placeholder="お名前を入力してください" 
-           oninput="updateName()" style="padding:0.6em 1em; font-size:1em; border-radius:6px; border:1px solid #ccc; width:80%; max-width:300px;">
+  <div style="text-align:center;margin-bottom:1em">
+    <input id="userNameInput" placeholder="お名前を入力してください" oninput="updateName()"
+           style="padding:.6em 1em;font-size:1em;border-radius:6px;border:1px solid #ccc;width:80%;max-width:300px" />
   </div>
 
   <div class="score-summary">
-    <h2 id="user-name-display">〇〇さん｜総合スコア：245点｜Aランク（安定型）</h2>
+    <h2 id="user-name-display">〇〇さん｜総合スコア：- 点｜- ランク</h2>
     <p>あなたの成婚力を8つの視点で見える化しました。</p>
     <canvas id="radarChart" width="300" height="300"></canvas>
   </div>
@@ -55,108 +44,109 @@ function updateName() {
   </div>
 
   <script>
-    const comments = {
-  "印象力": [
-    ["第一印象で損をしている可能性があります。雰囲気より『相手への思いやり』に意識を向けると印象は大きく変わります。", "会った瞬間が『プレゼンの始まり』。鏡の前で美備・姿勢・声のトーンをチェックして、印象づけの準備をしましょう。"],
-    ["やや硬さがあり、印象がぼやけてしまうことも。安心感のある笑顔や、声のトーンを意識してみましょう。", "あったかもしれの『聞き取りにくい箇所』が見られます。清潔感・笑顔・話し方の見直しが効果的です。"],
-    ["丁寧さや清潔感は伝わっています。あとは“あなたらしさ”を表情やトーンで自然に出せると◎", "鏡の前で美備・姿勢・声のトーンをチェックして、印象づけの率直を高めていきましょう。"],
-    ["とても好印象です！自然な雰囲気で相手も安心できています。", "今の印象力をベースに、自己紹介に“らしさ”を加えるとさらに魅力UP！"],
-  ],
-  "共感力": [
-    ["相手の気持ちに気づけず、会話がすれ違っている可能性があります。まずは相手の表情や反応に意識を向けましょう。", "相手の話を最後まで聞くこと。共感の基本は『遮らず、否定せず、うなずく』です。"],
-    ["共感しようとする姿勢はありますが、少し押し付けがましく感じられることも。言葉選びに注意しましょう。", "共感は『わかってるつもり』を手放すことから。相手の言葉を繰り返して受け止めるだけで印象が変わります。"],
-    ["程よい距離感と共感力で、信頼の土台ができつつあります。", "共感のリアクションは大げさでなくてOK。表情・うなずき・相づちで“聴いてる感”を丁寧に伝えましょう。"],
-    ["とても高い共感力をお持ちです！相手も安心して本音を話せる状態になっています。", "その共感力を活かして、相手の気持ちを代弁する言葉を一つ添えると、さらに信頼関係が深まります。"],
-  ],
-  "観察力": [
-    ["相手の変化や気持ちのサインを見逃しているかもしれません。自分の話ばかりになっていないか、意識を向けてみましょう。", "表情・視線・しぐさ・間の取り方に注意を向けることで、相手の感情に気づく感度が上がります。"],
-    ["相手の雰囲気は感じ取れていますが、言動の背景までは見えていない印象です。", "一歩深く「なぜそうしたのか？」を想像することで、観察から共感への一歩が踏み出せます。"],
-    ["観察力はまずまず。相手の好みや行動パターンも把握できています。", "次のステップは「観察のメモ化」。気づきを残すことで次の会話のヒントになります。"],
-    ["相手のちょっとした変化や表情にすぐ気づける、素晴らしい観察力があります。", "相手が驚くような一言を返せる「伏線回収トーク」ができると、記憶に残る存在になります。"],
-  ],
-  "洞察力": [
-    ["表面の言葉だけを受け取ってしまい、相手の本音に気づけていない可能性があります。", "会話の背景や言葉の温度感に注意を向けてみましょう。「なぜそれを言ったのか？」が鍵です。"],
-    ["一部の感情や意図は感じ取れていますが、見落としも多い印象です。", "話の内容だけでなく「話し方」「間」「言葉の選び方」などから気持ちを読み取る力を鍛えていきましょう。"],
-    ["感情の機微に気づける力はあり、共感もうまく働いています。", "洞察に磨きをかけるには「本音に触れる問いかけ」が効果的です。「それってどういう気持ち？」など。"],
-    ["相手の内面に深く共鳴できる素晴らしい洞察力があります。安心感と信頼の核になっています。", "洞察した内容を言語化し、そっとフィードバックする力を身につけると、さらに関係が深まります。"],
-  ],
-  "提案力": [
-    ["自分本位な提案や誘い方になっている可能性があります。まずは相手の価値観や好みに意識を向けてみましょう。", "提案の前に「相手が何を大切にしているか」を聞き出す質問をしてみましょう。相手軸がカギです。"],
-    ["気配りは感じますが、少し的外れな印象を与えてしまうことがあるかもしれません。", "提案内容に「なぜこれを選んだのか」という一言を添えると、思いやりが伝わりやすくなります。"],
-    ["相手の好みを意識した提案ができており、関係構築がスムーズになっています。", "相手の反応を見ながら提案の仕方を変える柔軟さが加わると、信頼度がさらに高まります。"],
-    ["相手のニーズにピタリと合った提案ができる力があります。自然と距離が縮まっています。", "提案に「あなたのために考えました」というメッセージ性を持たせることで、心に響く提案になります。"],
-  ],
-  "表現力": [
-    ["自分の魅力が相手に十分に伝わっていない可能性があります。自己開示の一歩が関係構築の鍵です。", "自分の大切にしている価値観や日常の習慣を少しずつ言葉にして伝えてみましょう。話題のストックが効果的です。"],
-    ["自己表現はしていますが、少し一方的だったり、伝え方に遠慮が出てしまう場面もあるようです。", "話す量よりも「話す順番」と「例え」の工夫が鍵。共感を生む表現であなたらしさを伝えましょう。"],
-    ["あなたらしい魅力がしっかり伝わっており、安心感ある印象です。", "プロフィールや自己紹介の言葉に“具体例”を添えることで、より印象に残ります。"],
-    ["自然体で自分を表現できており、会話にも魅力がにじみ出ています。", "今の表現力を活かし、相手の価値観にも共感しながら会話を広げることで、より深い関係が築けます。"],
-  ],
-  "会話力": [
-    ["会話が一方通行になりがちで、相手の話を引き出せていないかもしれません。", "質問を1つ投げたら、相手の答えに対して“掘る・返す・つなぐ”の順で深掘りしてみましょう。"],
-    ["表面的な会話はできていても、深い話題や価値観までは踏み込めていない印象です。", "「なぜそう思ったの？」「どんな気持ちだった？」という深掘り質問が関係性を深める鍵です。"],
-    ["会話のテンポや内容に柔らかさがあり、関係構築に役立っています。", "「共通点を見つけて盛り上げる」「相手の話を肯定する」の2つを意識すると、さらに深まります。"],
-    ["会話を通じて相手の価値観を自然に引き出せています。とても良いコミュニケーション力です。", "会話の中で“相手の魅力を言語化して返す”ことができれば、さらに印象に残る会話になります。"],
-  ],
-  "進展力": [
-    ["タイミングを逃して関係が停滞してしまう傾向があります。相手の温度感を見極める視点が必要です。", "「次のデートはいつにする？」などの前向きな提案で関係を一歩進める姿勢を持ちましょう。"],
-    ["進展させようとする意識はありますが、慎重すぎてタイミングが遅れている可能性があります。", "相手が好意を持ってくれていそうな場面では、勇気を出して一歩踏み出してみましょう。"],
-    ["相手との距離感を意識した行動ができており、関係性が自然に深まっています。", "タイミングよく「もっと知りたい」「また会いたい」などの言葉を伝えると効果的です。"],
-    ["関係を進める絶妙なタイミング感があります。信頼と好意がしっかり伝わっています。", "進展力が高い方ほど、相手の状況にも配慮しながら提案・確認を行う“間”が絶妙です。"],
-  ],
-};
+  /* ---------- 定数・マッピング ---------- */
+  const categoryList=["印象力","共感力","観察力","洞察力","提案力","表現力","会話力","進展力"];
+  const keyMap={
+    印象力:"impressionScore",共感力:"empathyScore",観察力:"observationScore",洞察力:"insightScore",
+    提案力:"proposalScore",表現力:"expressionScore",会話力:"conversationScore",進展力:"progressScore"
+  };
 
+  /* ---------- 64パターンのコメント・アドバイス ---------- */
+  const comments={
+    "印象力":[
+      ["第一印象で損をしている可能性があります。雰囲気より『相手への思いやり』に意識を向けると印象は大きく変わります。","会った瞬間が『プレゼンの始まり』。鏡の前で身嗜み・姿勢・声のトーンをチェックして、印象づけの準備をしましょう。"],
+      ["やや硬さがあり、印象がぼやけてしまうことも。安心感のある笑顔や、声のトーンを意識してみましょう。","『聞き取りにくい箇所』が見られます。清潔感・笑顔・話し方の見直しが効果的です。"],
+      ["丁寧さや清潔感は伝わっています。あとは“あなたらしさ”を表情やトーンで自然に出せると◎","鏡の前で身嗜み・姿勢・声のトーンをチェックして、印象づけの質を高めていきましょう。"],
+      ["とても好印象です！自然な雰囲気で相手も安心できています。","今の印象力をベースに、自己紹介に“らしさ”を加えるとさらに魅力UP！"]
+    ],
+    "共感力":[
+      ["相手の気持ちに気づけず、会話がすれ違っている可能性があります。まずは相手の表情や反応に意識を向けましょう。","相手の話を最後まで聞くこと。共感の基本は『遮らず、否定せず、うなずく』です。"],
+      ["共感しようとする姿勢はありますが、少し押し付けがましく感じられることも。言葉選びに注意しましょう。","『わかってるつもり』を手放すことから。相手の言葉を繰り返して受け止めるだけで印象が変わります。"],
+      ["程よい距離感と共感力で、信頼の土台ができつつあります。","表情・うなずき・相づちで“聴いてる感”を丁寧に伝えましょう。"],
+      ["とても高い共感力をお持ちです！相手も安心して本音を話せる状態になっています。","その共感力を活かして、相手の気持ちを代弁する言葉を一つ添えると、さらに信頼関係が深まります。"]
+    ],
+    "観察力":[
+      ["相手の変化や気持ちのサインを見逃しているかもしれません。自分の話ばかりになっていないか意識しましょう。","表情・視線・しぐさ・間に注意を向けることで、相手の感情に気づく感度が上がります。"],
+      ["相手の雰囲気は感じ取れているものの、言動の背景までは見えていない印象です。","一歩深く『なぜそうしたのか？』を想像することで、観察から共感への一歩が踏み出せます。"],
+      ["観察力はまずまず。相手の好みや行動パターンも把握できています。","次のステップは『観察のメモ化』。気づきを残すことで次の会話のヒントになります。"],
+      ["相手のちょっとした変化や表情にすぐ気づける、素晴らしい観察力があります。","『伏線回収トーク』で印象に残る存在になりましょう。"]
+    ],
+    "洞察力":[
+      ["表面の言葉だけを受け取ってしまい、相手の本音に気づけていない可能性があります。","背景や言葉の温度感に注意し『なぜそれを言ったのか？』を考えましょう。"],
+      ["一部の感情や意図は感じ取れていますが、見落としも多い印象です。","『話し方』『間』『言葉選び』から気持ちを読み取る力を鍛えましょう。"],
+      ["感情の機微に気づける力はあり、共感もうまく働いています。","『本音に触れる問いかけ』を増やすと洞察が深まります。"],
+      ["相手の内面に深く共鳴できる素晴らしい洞察力があります。","洞察内容を言語化しフィードバックすると、さらに関係が深まります。"]
+    ],
+    "提案力":[
+      ["自分本位な提案や誘い方になっている可能性があります。相手の価値観や好みに意識を向けましょう。","提案前に『相手が何を大切にしているか』を質問してみましょう。"],
+      ["気配りは感じますが、少し的外れな印象を与えてしまうことがあるかもしれません。","提案に『なぜこれを選んだのか』という一言を添えると効果的です。"],
+      ["相手の好みを意識した提案ができており、関係構築がスムーズです。","相手の反応を見ながら提案スタイルを柔軟に変えてみましょう。"],
+      ["相手のニーズにピタリと合った提案ができています。","『あなたのために考えました』というメッセージ性を持たせるとより響きます。"]
+    ],
+    "表現力":[
+      ["自分の魅力が相手に十分に伝わっていない可能性があります。","価値観や習慣を少しずつ言葉にし、自己開示の一歩を踏み出しましょう。"],
+      ["自己表現はあるものの、一方的だったり遠慮が出る場面も。","『話す順序』『例え話』で分かりやすさと共感を両立しましょう。"],
+      ["あなたらしい魅力がしっかり伝わっています。","プロフィールや自己紹介に具体例を添えるとさらに効果的です。"],
+      ["自然体で自分を表現できており、魅力がにじみ出ています。","相手の価値観に共感を示しながら話題を広げましょう。"]
+    ],
+    "会話力":[
+      ["会話が一方通行になりがちで、相手の話を引き出せていないかもしれません。","『掘る・返す・つなぐ』の順で深掘りしてみましょう。"],
+      ["表面的な会話はできていますが、価値観までは踏み込めていない印象です。","『なぜそう思ったの？』『どんな気持ちだった？』と質問してみてください。"],
+      ["会話のテンポや内容に柔らかさがあり、関係構築に役立っています。","共通点を見つけて盛り上げ、相手の話を肯定しましょう。"],
+      ["会話を通じて相手の価値観を自然に引き出せています。","相手の魅力を言語化して返すとより印象に残ります。"]
+    ],
+    "進展力":[
+      ["タイミングを逃して関係が停滞しがちです。相手の温度感を見極めましょう。","『次のデートはいつにする？』など前向きな提案を。"],
+      ["進展させようとする意識はありますが、慎重すぎて遅れる場合があります。","好意を感じたら勇気を出して一歩踏み出しましょう。"],
+      ["距離感を意識した行動ができており、関係が自然に深まっています。","『もっと知りたい』『また会いたい』などタイミングよく伝えましょう。"],
+      ["絶妙なタイミングで関係を進める力があります。","相手の状況にも配慮しながら提案・確認を行うとさらに安心感が増します。"]
+    ]
+  };
 
-    const scores = JSON.parse(sessionStorage.getItem("diagnosisScores")) || {
-      印象力: 2.8, 共感力: 2.6, 観察力: 2.5, 洞察力: 2.2,
-      提案力: 2.1, 表現力: 2.0, 会話力: 1.8, 進展力: 1.9
-    };
+  /* ---------- スコア取得 & 平均値計算 ---------- */
+  const rawScores={};   // 各カテゴリ 10〜30 点
+  const avgScores={};   // レーダーチャート用 1〜3 点
+  let total=0;
+  categoryList.forEach(cat=>{
+    const raw=parseInt(sessionStorage.getItem(keyMap[cat] ))||0;
+    rawScores[cat]=raw;
+    avgScores[cat]=(raw/10).toFixed(2); // 1〜3 の少数
+    total+=raw;
+  });
 
-    const categories = ['印象力', '共感力', '観察力', '洞察力', '提案力', '表現力', '会話力', '進展力'];
-    const resultsArea = document.getElementById("resultsArea");
+  /* ---------- 総合ランク判定 ---------- */
+  function getRank(pt){
+    if(pt>=220) return "Sランク（理想型）";
+    if(pt>=180) return "Aランク（安定型)";
+    if(pt>=140) return "Bランク（成長型)";
+    return "Cランク（これから)";
+  }
+  const rank=getRank(total);
 
-    categories.forEach(cat => {
-      const score = Math.round(scores[cat]);
-      const commentSet = comments[cat] ? comments[cat][score] : ["診断コメント未登録", "アドバイス未登録"];
-      const div = document.createElement("div");
-      div.className = "category-result";
-      div.innerHTML = 
-        <h3>${cat}</h3>
-        <div class="comment-block">
-          <div>${commentSet[0]}</div>
-          <div class="advice-label">アドバイス：</div>
-          <div>${commentSet[1]}</div>
-        </div>
-      ;
-      resultsArea.appendChild(div);
-    });
+  /* ---------- 名前表示更新 ---------- */
+  function updateName(){
+    const name=document.getElementById("userNameInput").value.trim()||"〇〇";
+    document.getElementById("user-name-display").textContent=`${name}さん｜総合スコア：${total}点｜${rank}`;
+  }
+  // 初期反映
+  updateName();
 
-    const ctx = document.getElementById('radarChart');
-    new Chart(ctx, {
-      type: 'radar',
-      data: {
-        labels: categories,
-        datasets: [{
-          label: "あなたのスコア",
-          data: categories.map(c => scores[c]),
-          backgroundColor: "rgba(0, 123, 204, 0.4)",
-          borderColor: "#007acc",
-          pointBackgroundColor: "#007acc"
-        }]
-      },
-      options: {
-        responsive: true,
-        scale: {
-          ticks: { beginAtZero: true, max: 3, stepSize: 1 }
-        }
-      }
-    });
-  
-function updateName() {
-  const name = document.getElementById("userNameInput").value.trim() || "〇〇";
-  document.getElementById("user-name-display").textContent = ${name}さん｜総合スコア：245点｜Aランク（安定型）;
-}
+  /* ---------- コメント描画 ---------- */
+  const resultsArea=document.getElementById("resultsArea");
+  categoryList.forEach(cat=>{
+    const level=Math.min(3,Math.max(0,Math.round(avgScores[cat]-1))); // avg 1‑3 => index 0‑2‑3
+    const [comment,advice]=comments[cat][level]||["診断コメント未登録","アドバイス未登録"];
+    resultsArea.insertAdjacentHTML("beforeend",
+      `<div class="category-result"><h3>${cat}</h3><div class="comment-block"><div>${comment}</div><div class="advice-label">アドバイス：</div><div>${advice}</div></div></div>`
+    );
+  });
 
-</script>
+  /* ---------- レーダーチャート ---------- */
+  new Chart(document.getElementById("radarChart"),{
+    type:"radar",
+    data:{labels:categoryList,datasets:[{label:"あなたのスコア",data:categoryList.map(c=>avgScores[c]),backgroundColor:"rgba(0,123,204,.4)",borderColor:"#007acc",pointBackgroundColor:"#007acc"}]},
+    options:{responsive:true,scale:{ticks:{beginAtZero:true,max:3,stepSize:1}}}
+  });
+  </script>
 </body>
 </html>
