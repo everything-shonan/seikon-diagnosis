@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>診断結果 - 成婚力診断</title>
-  <!-- Chart.js (v4) 本体のみ -->
+  <!-- Chart.js v4 (UMD) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body{font-family:sans-serif;background:#f0faff;color:#003b63;margin:0;padding:1.5em}
@@ -44,24 +44,20 @@
 
 <script>
 (function(){
-  /* =====================
-        定数 & マッピング
-  =====================*/
+  /* ========= 定数 & マッピング ========= */
   const categories=["印象力","共感力","観察力","洞察力","提案力","表現力","会話力","進展力"];
   const keyMap={
-    印象力:"impressionScore",
-    共感力:"empathyScore",
-    観察力:"observationScore",
-    洞察力:"insightScore",
-    提案力:"proposalScore",
-    表現力:"expressionScore",
-    会話力:"conversationScore",
-    進展力:"progressScore"
+    "印象力":"impressionScore",
+    "共感力":"empathyScore",
+    "観察力":"observationScore",
+    "洞察力":"insightScore",
+    "提案力":"proposalScore",
+    "表現力":"expressionScore",
+    "会話力":"conversationScore",
+    "進展力":"progressScore"
   };
 
-  /* =====================
-        コメント / アドバイス 64通り
-  =====================*/
+  /* ========= コメント & 営業的アドバイス ========= */
   const comments={
     "印象力":[
       ["第一印象で損をしている可能性があります。雰囲気より『相手への思いやり』に意識を向けると印象は大きく変わります。","会った瞬間が『プレゼンの始まり』。鏡の前で身嗜み・姿勢・声のトーンをチェックして、印象づけの準備をしましょう。"],
@@ -113,48 +109,44 @@
     ]
   };
 
-  /* =====================
-        スコア取得 + ランク
-  =====================*/
+  /* ========= スコア取得 & ランク計算 ========= */
   const scores={}, radarData=[];
   let total=0;
   categories.forEach(cat=>{
     const raw=parseInt(sessionStorage.getItem(keyMap[cat])||"0",10);
-    scores[cat]=raw; total+=raw; radarData.push(raw/10);
+    scores[cat]=raw;
+    radarData.push(raw/10);
+    total+=raw;
   });
-  function rankOf(pt){
+  function getRank(pt){
     if(pt>=270) return "Sランク（成婚力MAX）";
     if(pt>=210) return "Aランク（安定型）";
     if(pt>=150) return "Bランク（改善の余地あり）";
-    if(pt>=90 ) return "Cランク（要改善）";
+    if(pt>=90)  return "Cランク（要改善）";
     return "Dランク（努力が必要）";
   }
-  const rank=rankOf(total);
+  const rank=getRank(total);
 
-  /* =====================
-        名前表示
-  =====================*/
+  /* ========= 名前表示 ========= */
   window.updateName=function(){
     const name=document.getElementById("userNameInput").value.trim()||"〇〇";
     document.getElementById("user-name-display").textContent=`${name}さん｜総合スコア：${total}点｜${rank}`;
   };
   updateName();
 
-  /* =====================
-        コメント描画
-  =====================*/
+  /* ========= コメント描画 ========= */
   const resultsArea=document.getElementById("resultsArea");
   categories.forEach(cat=>{
     const level=Math.max(0,Math.min(3,Math.round(scores[cat]/10)-1));
-    const [comment,advice]=comments[cat][level];
+    const set=comments[cat]&&comments[cat][level];
+    const comment=set?set[0]:"診断コメント未登録";
+    const advice=set?set[1]:"営業的アドバイス未登録";
     resultsArea.insertAdjacentHTML("beforeend",
-      `<div class="category-result"><h3>${cat}</h3><div class="comment-block"><div>${comment}</div><div class="advice-label">アドバイス：</div><div>${advice}</div></div></div>`
+      `<div class="category-result"><h3>${cat}</h3><div class="comment-block"><div>${comment}</div><div class="advice-label">営業的アドバイス：</div><div>${advice}</div></div></div>`
     );
   });
 
-  /* =====================
-        レーダーチャート
-  =====================*/
+  /* ========= レーダーチャート ========= */
   new Chart(document.getElementById("radarChart"),{
     type:"radar",
     data:{labels:categories,datasets:[{label:"あなたのスコア",data:radarData,backgroundColor:"rgba(0,123,204,.4)",borderColor:"#007acc",pointBackgroundColor:"#007acc"}]},
