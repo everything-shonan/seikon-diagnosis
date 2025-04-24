@@ -113,10 +113,14 @@
   const scores={}, radarData=[];
   let total=0;
   categories.forEach(cat=>{
-    const raw=parseInt(sessionStorage.getItem(keyMap[cat])||"0",10);
-    scores[cat]=raw;
-    radarData.push(raw/10);
-    total+=raw;
+    /* 💙 ガード：必ず 0〜30 に丸める 💙 */
+ const raw = Math.min(
+    30,
+    parseInt(sessionStorage.getItem(keyMap[cat]) || "0", 10)
+  );
+  scores[cat]  = raw;
+  radarData.push(raw / 10);    // 0〜3 のみ
+  total += raw;
   });
   function getRank(pt){
     if(pt>=270) return "Sランク（成婚力MAX）";
