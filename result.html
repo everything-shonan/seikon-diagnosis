@@ -123,10 +123,10 @@
   total += raw;
   });
   function getRank(pt){
-    if(pt>=270) return "Sランク（成婚力MAX）";
-    if(pt>=210) return "Aランク（安定型）";
-    if(pt>=150) return "Bランク（改善の余地あり）";
-    if(pt>=90)  return "Cランク（要改善）";
+    if(pt>=240) return "Sランク（成婚力MAX）";
+    if(pt>=200) return "Aランク（安定型）";
+    if(pt>=160) return "Bランク（改善の余地あり）";
+    if(pt>=120)  return "Cランク（要改善）";
     return "Dランク（努力が必要）";
   }
   const rank=getRank(total);
@@ -155,11 +155,29 @@
   });
 
   /* ========= レーダーチャート ========= */
-  new Chart(document.getElementById("radarChart"),{
-    type:"radar",
-    data:{labels:categories,datasets:[{label:"あなたのスコア",data:radarData,backgroundColor:"rgba(0,123,204,.4)",borderColor:"#007acc",pointBackgroundColor:"#007acc"}]},
-    options:{responsive:true,scale:{ticks:{beginAtZero:true,max:3,stepSize:1}}}
-  });
+  new Chart(document.getElementById("radarChart"), {
+  type: "radar",
+  data: {
+    labels: categories,
+    datasets: [{
+      label: "あなたのスコア",
+      data: radarData,
+      backgroundColor: "rgba(0,123,204,.4)",
+      borderColor: "#007acc",
+      pointBackgroundColor: "#007acc"
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      r: {                 // ★ v4 は “r” スケール名
+        min: 0,
+        max: 3,            // ★ きっちり 3.0 を外周に
+        ticks: { stepSize: 1 }
+      }
+    }
+  }
+});
 })();
 </script>
 </body>
